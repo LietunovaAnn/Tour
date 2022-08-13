@@ -1,0 +1,298 @@
+* {
+    box-sizing: border-box;
+    font-family: Noto Sans, sans-serif;
+}
+
+body {
+    /*background-image: url(img/7.jpg);*/
+    background-color: #8f5a0a;
+    margin: 0 5%;
+}
+
+#navbar ul {
+    display: none;
+    background-color: #f90;
+    position: absolute;
+    top: 100%;
+}
+
+#navbar li:hover ul {
+    display: block;
+}
+
+#navbar, #navbar ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#navbar {
+    height: 30px;
+    background-color: #666;
+    padding-left: 175px;
+    min-width: 470px;
+}
+
+#navbar li {
+    float: left;
+    position: relative;
+    height: 100%;
+    padding: 0 52px 0 32px;
+}
+
+#navbar li a {
+    display: block;
+    padding: 6px;
+    width: 100px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+
+#navbar ul li {
+    float: none;
+}
+
+#navbar li:hover {
+    background-color: #f90;
+}
+
+#navbar ul li:hover {
+    background-color: #666;
+}
+
+.main {
+    max-width: 1250px;
+    min-width: 1000px;
+    margin: auto;
+}
+
+
+img.leftfoto {
+    float: right;
+    margin: 2px 10px 2px 10px;
+    width: 200px;
+    height: 350px;
+}
+
+img.rightfoto {
+    float: right;
+    margin: 2px 10px 2px 10px;
+    width: 320px;
+    height: 230px;
+}
+
+
+.right_col-text {
+    padding: 30px;
+    float: left;
+}
+
+.header,
+.footer,
+.right_col,
+.left_col {
+    border: 4px solid #C7C7AC;
+}
+
+.right_col,
+.left_col {
+    float: left;
+}
+
+.header {
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.left_col {
+    width: 24%;
+}
+
+.right_col {
+    width: 75.5%;
+    margin-left: 0.5%;
+}
+
+.footer {
+    margin-top: 5px;
+}
+
+.inside-header,
+.inside-right_col,
+.inside-left_col,
+.inside-footer {
+    background: #ffffcc;
+}
+
+.inside-right_col,
+.inside-left_col {
+    min-height: 1200px;
+    word-wrap: break-word;
+
+}
+
+h3 {
+    color: #ffbb33;
+    text-align: center;
+}
+
+h2 {
+    padding-top: 15px;
+    text-align: center;
+}
+
+.inside-header {
+    min-height: 100px;
+    display: block;
+}
+
+.inside-right_col {
+    margin-top: -20px;
+    margin-bottom: -20px;
+}
+
+
+.inside-left_col {
+    overflow: hidden;
+}
+
+
+.inside-footer {
+    height: 40px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+
+/*.header-photo{*/
+/*    width: 100%;*/
+/*    height: 100px;*/
+/*    background-image: url(img/6.jpg);*/
+/*    background-size: contain;*/
+/*    background-repeat: repeat-x;*/
+/*}*/
+
+
+a, .header-link {
+    display: block;
+    text-decoration: none;
+    color: blue;
+}
+
+p {
+    text-indent: 25px;
+}
+
+.row:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.row {
+    display: block;
+}
+
+
+/*#login*/
+/*{*/
+/*    background-image: url(img/22.jpg);*/
+/*    height: 240px;*/
+/*    width: 265px;*/
+/*    margin: -150px 0 0 -230px;*/
+/*    padding: 10px;*/
+/*    position: absolute;*/
+/*    top: 55%;*/
+/*    left: 23%;*/
+
+/*}*/
+
+#login:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border: 1px dashed #ccc;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+
+}
+
+fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+
+#inputs input {
+    background: #f1f1f1;
+    padding: 5px 5px 5px 10px;
+    margin: 0 0 5px 0;
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+#username {
+    background-position: 5px -2px;
+}
+
+#password {
+    background-position: 5px -2px;
+}
+
+#inputs input:focus {
+    background-color: #fff;
+    border-color: #e8c291;
+    outline: none;
+}
+
+#actions {
+    margin: 25px 0 0 0;
+}
+
+#submit {
+    background-color: #ffb94b;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d69e31 #e3a037 #d5982d #e3a037;
+
+    float: left;
+    height: 25px;
+    padding: 0;
+    width: 80px;
+    cursor: pointer;
+    font: bold 15px Arial, Helvetica;
+    color: #8f5a0a;
+}
+
+#submit:hover, #submit:focus {
+    background-color: #ffbb33;
+
+}
+
+#submit:active {
+    outline: none;
+
+}
+
+#submit {
+    border: none;
+}
+
+#actions a {
+    color: #ffbb33;
+    float: right;
+    line-height: 20px;
+    margin-left: 10px;
+}
+
+

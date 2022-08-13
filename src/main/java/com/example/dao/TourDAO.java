@@ -1,0 +1,93 @@
+package com.example.dao;
+
+import com.example.entities.Tour;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TourDAO {
+    private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+
+    public static List<Tour> showAllTour() {
+        List<Tour> tourList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM TOUR");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                tourList.add(parseTour(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tourList;
+    }
+
+    private static Tour parseTour(ResultSet resultSet) {
+        Tour tour = new Tour();
+        try {
+            tour.setId(resultSet.getInt(1));
+            tour.setName(resultSet.getString(2));
+            tour.setPrice(resultSet.getInt(3));
+            tour.setComplexityId(resultSet.getInt(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tour;
+    }
+
+    public Tour getTour(int id) {
+        ResultSet resultSet = null;
+        Tour tour = null;
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM TOUR WHERE TOUR_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                tour = parseTour(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return tour;
+    }
+
+    public boolean addTour(Tour tour) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("INSERT INTO TOUR VALUES (?, ?, ?, ?) ")) {
+            preparedStatement.setInt(1, tour.getId());
+            preparedStatement.setString(2, tour.getName());
+            preparedStatement.setInt(3, tour.getPrice());
+            preparedStatement.setInt(4, tour.getComplexityId());
+            //todo id  auto
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeTour(int id) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("DELETE TOUR WHERE TOUR_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+}
