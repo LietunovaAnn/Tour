@@ -1,32 +1,31 @@
 <%--
   Created by IntelliJ IDEA.
   User: Let
-  Date: 13.08.2022
-  Time: 14:29
+  Date: 14.08.2022
+  Time: 16:03
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
-    <title>Add Customer</title>
+    <title>Add Variation</title>
 </head>
 <body>
-<h1>Создать нового покупателя: </h1>
-<form:form action="/Tourism/saveCustomer" method="post">
+<h1>Создать новую варианцию тура: </h1>
+<form:form action="/Tourism/saveVariation" method="post">
     <table>
-        <form:hidden path="id"/>
+            <%--        <tr>--%>
+            <%--            <td>Enter id:</td>--%>
+            <%--            <td><form:input path="id"/></td>--%>
+            <%--        </tr>--%>
         <tr>
-            <td>Имя:</td>
+            <td>№ Тура:</td>
             <td><form:input path="name"/></td>
         </tr>
         <tr>
-            <td>Еmail:</td>
-            <td><form:input path="email"/></td>
-        </tr>
-        <tr>
-            <td>Количество курленных туров:</td>
-            <td><form:input path="participationNumber"/></td>
+            <td>№ Вид тура:</td>
+            <td><form:input path="price"/></td>
         </tr>
         <tr>
             <td></td>

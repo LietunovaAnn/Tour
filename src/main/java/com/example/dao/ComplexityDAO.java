@@ -51,11 +51,22 @@ public class ComplexityDAO {
 
     public boolean addComplexity(Complexity complexity) {
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO COMPLEXITY VALUES (?, ?) ")) {
-            preparedStatement.setInt(1, complexity.getId());
-            preparedStatement.setString(2, complexity.getName());
-            //todo id  auto
-            preparedStatement.execute();
+                     connection.prepareStatement("INSERT INTO COMPLEXITY  VALUES (COMPLEXITY_SEQ.nextval, ?) ")) {
+            preparedStatement.setString(1, complexity.getName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editComplexity(Complexity complexity) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE DISCOUNT set COMPLEXITY_NAME = ? WHERE COMPLEXITY_ID = ?")) {
+            preparedStatement.setString(1, complexity.getName());
+            preparedStatement.setInt(2, complexity.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

@@ -34,7 +34,8 @@
 
 </table>
 
-<p><a href="index.jsp">Вернуться на главную</a></p>
+<p><a href="/Tourism/addDiscount">Добавить новую скидку</a></p>
+<p><a href="/Tourism/">Вернуться на главную</a></p>
 
 </body>
 </html>

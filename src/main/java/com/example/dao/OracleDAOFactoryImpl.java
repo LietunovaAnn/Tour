@@ -26,7 +26,7 @@ public class OracleDAOFactoryImpl implements DAOFactory {
     public static Connection getConnection() {
         if (connection == null) {
             try {
-                DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+                //DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
                 Class.forName(DRIVER);
                 connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             } catch (SQLException | ClassNotFoundException e) {

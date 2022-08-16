@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -12,6 +13,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan({"com.example"})
 public class AppConfig implements WebMvcConfigurer {
     private ApplicationContext applicationContext;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/img/");
+    }
 
     @Autowired
     public ApplicationContext getApplicationContext() {

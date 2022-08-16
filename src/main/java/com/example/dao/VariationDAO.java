@@ -25,15 +25,15 @@ public class VariationDAO {
         return variations;
     }
 
-    public Variation getVariation(int id) {
+    public List<Variation> getVariation(int id) {
         ResultSet resultSet = null;
-        Variation variation = null;
+        List<Variation> variation = null;
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM VARIATION WHERE TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                variation = parseVariation(resultSet);
+                variation.add(parseVariation(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,7 +54,6 @@ public class VariationDAO {
                      connection.prepareStatement("INSERT INTO VARIATION VALUES (?, ?) ")) {
             preparedStatement.setInt(1, variation.getTourId());
             preparedStatement.setInt(2, variation.getTypeOfTourId());
-            //todo id  auto
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

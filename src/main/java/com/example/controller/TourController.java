@@ -1,7 +1,7 @@
 package com.example.controller;
 
-import com.example.dao.DAOFactory;
-import com.example.dao.OracleDAOFactoryImpl;
+import com.example.dao.*;
+import com.example.entities.Complexity;
 import com.example.entities.Tour;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,26 +12,48 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/tour")
 public class TourController {
-    private static final DAOFactory dao = OracleDAOFactoryImpl.getInstance();
-    private List<Tour> tourtList;
+    private static final DAOFactory FACTORY = OracleDAOFactoryImpl.getInstance();
+    private static final TourDAO TOUR_DAO = FACTORY.getTourDAO();
+    private static final ComplexityDAO COMPLEXITY_DAO = FACTORY.getComplexityDAO();
+    private static final VariationDAO VARIATION_DAO = FACTORY.getVariationDAO();
+    private static final TypeOfTourDAO TYPE_OF_TOUR_DAO = FACTORY.getTypeOfTourDAO();
+    private List<Tour> tourList;
 
-
-//    @GetMapping(value = "/viewAllTours")
-//    public ModelAndView viewAllTours () {
-//        tourtList = (tourtList != null) ? tourtList : getAllTours();
-//        return new ModelAndView("viewAllTours", "ListOfTours", tourtList);
-//    }
 
     @GetMapping(value = "/viewAllTours")
-    public ModelAndView infoTours() {
-        tourtList = (tourtList != null) ? tourtList : getAllTours();
-        return new ModelAndView("tour/viewAllTours", "ListOfTours", tourtList);
+    public ModelAndView viewAllTours() {
+        ModelAndView mv = new ModelAndView("tour/viewAllTours");
+
+        tourList = TOUR_DAO.showAllTour();
+        mv.addObject("ListOfTours", tourList);
+        for (Tour tour : tourList) {
+            Complexity complexity = COMPLEXITY_DAO.getComplexity(tour.getComplexityId());
+
+            complexity.getName();
+            mv.addObject("getComplexity", complexity);
+//            List<String> totName = new ArrayList<>();
+//            for (Variation variation :VARIATION_DAO.getVariation(tour.getId())) {
+//                totName.add(TYPE_OF_TOUR_DAO.getTypeOfTour(variation.getTypeOfTourId()).getName());
+//            }
+//            mv.addObject("ListOfTypeOfTour", totName);
+
+        }
+        return mv;
+        //  return new ModelAndView("tour/viewAllTours", "ListOfTours", tourList);
     }
+
+//    @GetMapping(value = "/viewAllTours/{id}")
+//    public ModelAndView infoTours(@PathVariable int id) {
+//        ComplexityController complexityController = new ComplexityController();
+//
+//        return new ModelAndView("tour/viewAllTours", "getComplexity",
+//                complexityController.getComplexity(tourList.get(id).getId()));
+//    }
 
     @GetMapping(value = "/chooseTour/{id}")
     public ModelAndView chooseTour(@PathVariable int id) {
-        tourtList = (tourtList != null) ? tourtList : getAllTours();
-        return new ModelAndView("tour/viewAllTours", "ListOfTours", tourtList);
+        tourList = TOUR_DAO.showAllTour();
+        return new ModelAndView("tour/viewAllTours", "ListOfTours", tourList);
     }
 
     @RequestMapping(value = "/addTour", method = RequestMethod.GET)
@@ -42,27 +64,25 @@ public class TourController {
     @RequestMapping(value = "/editTour/{id}", method = RequestMethod.GET)
     public ModelAndView editTour(@PathVariable int id) {
 
-        return new ModelAndView("tour/editTour", "command", new Tour());
+        return new ModelAndView("tour/addTour", "command", TOUR_DAO.getTour(id));
     }
 
     @RequestMapping(value = "/saveTour", method = RequestMethod.POST)
     public ModelAndView saveTour(@ModelAttribute Tour tour) {
-        tourtList.add(tour);
+        TOUR_DAO.addTour(tour);
         return new ModelAndView("redirect:/tour/viewAllTours");
     }
 
     @GetMapping(value = "/removeTour/{id}")
     public ModelAndView removeTour(@PathVariable int id) {
-        for (int i = 0; i < tourtList.size(); i++) {
-            if (id == tourtList.get(i).getId()) {
-                tourtList.remove(tourtList.get(i));
-            }
-        }
+        TOUR_DAO.removeTour(id);
+//        for (int i = 0; i < tourList.size(); i++) {
+//            if (id == tourList.get(i).getId()) {
+//                tourList.remove(tourList.get(i));
+//            }
+//        }
         return new ModelAndView("redirect:/tour/viewAllTours");
     }
 
-    public List<Tour> getAllTours() {
-        List<Tour> tourtList = dao.getTourDAO().showAllTour();
-        return tourtList;
-    }
+
 }

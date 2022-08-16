@@ -12,7 +12,7 @@ import java.util.List;
 public class CustomerDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
 
-    public static List<Customer> showAllCustomers() {
+    public List<Customer> showAllCustomers() {
         List<Customer> customerList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMERS");
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -26,7 +26,31 @@ public class CustomerDAO {
         return customerList;
     }
 
-    private static Customer parseCustomer(ResultSet resultSet) {
+    public Customer getCustomer(int id) {
+        ResultSet resultSet = null;
+        Customer customer = null;
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM CUSTOMERS WHERE CUSTOMERS_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customer = parseCustomer(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return customer;
+    }
+
+    private Customer parseCustomer(ResultSet resultSet) {
         Customer customer = new Customer();
         try {
             customer.setId(resultSet.getInt(1));
@@ -40,14 +64,28 @@ public class CustomerDAO {
     }
 
     public boolean addCustomer(Customer customer) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO CUSTOMERS VALUES (?, ?, ?, ?) ")) {
-            preparedStatement.setInt(1, customer.getId());
-            preparedStatement.setString(2, customer.getName());
-            preparedStatement.setString(3, customer.getEmail());
-            preparedStatement.setInt(4, customer.getParticipationNumber());
-            //todo id i part auto
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO CUSTOMERS VALUES (CUSTOMERS_SEQ.nextval, ?, ?, ?) ")) {
+            preparedStatement.setString(1, customer.getName());
+            preparedStatement.setString(2, customer.getEmail());
+            preparedStatement.setInt(3, customer.getParticipationNumber());
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editCustomer(Customer customer) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE DISCOUNT set CUSTOMERS_NAME = ?, CUSTOMERS_EMAIL = ?, PARTICIPATION_NUMBER = ?" +
+                        " WHERE CUSTOMERS_ID = ?")) {
+            preparedStatement.setString(1, customer.getName());
+            preparedStatement.setString(2, customer.getEmail());
+            preparedStatement.setInt(3, customer.getParticipationNumber());
+            preparedStatement.setInt(4, customer.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

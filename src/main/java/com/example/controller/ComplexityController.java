@@ -5,9 +5,7 @@ import com.example.dao.DAOFactory;
 import com.example.dao.OracleDAOFactoryImpl;
 import com.example.entities.Complexity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -15,39 +13,46 @@ import java.util.List;
 @Controller
 @RequestMapping
 public class ComplexityController {
-    private static final DAOFactory dao = OracleDAOFactoryImpl.getInstance();
+    private static final DAOFactory FACTORY = OracleDAOFactoryImpl.getInstance();
+    private static final ComplexityDAO COMPLEXITY_DAO = FACTORY.getComplexityDAO();
     private List<Complexity> complexityList;
 
     @GetMapping(value = "/complexity")
     public ModelAndView viewAllComplexity() {
-        complexityList = (complexityList != null) ? complexityList : getAllComplexity();
+        complexityList = COMPLEXITY_DAO.showAllComplexity();
         return new ModelAndView("complexity/complexity", "ListOfComplexity", complexityList);
     }
 
-    @GetMapping(value = "/complexity/{id}")
-    public ModelAndView chooseComplexity(@PathVariable int id) {
-        Complexity complexity = getComplexity(id);
-        return new ModelAndView("complexity/complexity", "getComplexity", complexity);
+    //    @GetMapping(value = "/complexity/{id}")
+//    public ModelAndView chooseComplexity(@PathVariable int id) {
+//       // Complexity complexity = getComplexity(id);
+//        return new ModelAndView("complexity/complexity", "getComplexity", complexity);
+//    }
+    @RequestMapping(value = "/addComplexity", method = RequestMethod.GET)
+    public ModelAndView addComplexity() {
+        return new ModelAndView("complexity/addComplexity", "command", new Complexity());
     }
 
+    @RequestMapping(value = "/editComplexity/{id}", method = RequestMethod.GET)
+    public ModelAndView editComplexity(@PathVariable int id) {
+        return new ModelAndView("complexity/editComplexity", "command", COMPLEXITY_DAO.getComplexity(id));
+    }
 
-    @GetMapping(value = "/removeComplexity/{id}")
-    public ModelAndView removeComplexity(@PathVariable int id) {
-        for (int i = 0; i < complexityList.size(); i++) {
-            if (id == complexityList.get(i).getId()) {
-                complexityList.remove(complexityList.get(i));
-            }
+    @RequestMapping(value = "/saveComplexity", method = RequestMethod.POST)
+    public ModelAndView saveTour(@ModelAttribute Complexity complexity) {
+        if (complexity.getId() == 0) {
+            COMPLEXITY_DAO.addComplexity(complexity);
+        } else {
+            COMPLEXITY_DAO.editComplexity(complexity);
         }
+
         return new ModelAndView("redirect:/complexity");
     }
 
-    public List<Complexity> getAllComplexity() {
-        ComplexityDAO complexityDAO = dao.getComplexityDAO();
-        return complexityDAO.showAllComplexity();
+    @GetMapping(value = "/removeComplexity/{id}")
+    public ModelAndView removeComplexity(@PathVariable int id) {
+        COMPLEXITY_DAO.removeComplexity(id);
+        return new ModelAndView("redirect:/complexity");
     }
 
-    public Complexity getComplexity(int id) {
-        ComplexityDAO complexityDAO = dao.getComplexityDAO();
-        return complexityDAO.getComplexity(id);
-    }
 }

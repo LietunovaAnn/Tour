@@ -51,12 +51,26 @@ public class DiscountDAO {
 
     public boolean addDiscount(Discount discount) {
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO DISCOUNT VALUES (?, ?, ?, ?) ")) {
-            preparedStatement.setInt(1, discount.getId());
-            preparedStatement.setInt(2, discount.getParticipationNumber());
-            preparedStatement.setInt(3, discount.getPercent());
-            //todo id  auto
-            preparedStatement.execute();
+                     connection.prepareStatement("INSERT INTO DISCOUNT  VALUES (DISCOUNT_SEQ.nextval, ?, ?) ")) {
+            preparedStatement.setInt(1, discount.getParticipationNumber());
+            preparedStatement.setInt(2, discount.getPercent());
+            preparedStatement.executeUpdate();
+//            ResultSet tableKeys = preparedStatement.getGeneratedKeys();
+//            tableKeys.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editDiscount(Discount discount) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE DISCOUNT set PARTICIPATION_NUMBER = ?, PERCENT = ? WHERE DISCOUNT_ID = ?")) {
+            preparedStatement.setInt(1, discount.getParticipationNumber());
+            preparedStatement.setInt(2, discount.getPercent());
+            preparedStatement.setInt(3, discount.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

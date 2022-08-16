@@ -31,8 +31,7 @@
     </c:forEach>
 
 </table>
-
-<p><a href="index.jsp">Вернуться на главную</a></p>
-
+<p><a href="/Tourism/addComplexity">Добавить новый вид</a></p>
+<p><a href="/Tourism/">Вернуться на главную</a></p>
 </body>
 </html>

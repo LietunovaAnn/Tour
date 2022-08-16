@@ -51,11 +51,22 @@ public class TypeOfTourDAO {
 
     public boolean addTypeOfTour(TypeOfTour typeOfTour) {
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (?, ?) ")) {
-            preparedStatement.setInt(1, typeOfTour.getId());
-            preparedStatement.setString(2, typeOfTour.getName());
-            //todo id  auto
-            preparedStatement.execute();
+                     connection.prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (TYPE_OF_TOUR_SEQ.nextval, ?) ")) {
+            preparedStatement.setString(1, typeOfTour.getName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editTypeOfTour(TypeOfTour typeOfTour) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE DISCOUNT set TYPE_OF_TOUR_NAME = ? WHERE TYPE_OF_TOUR_ID = ?")) {
+            preparedStatement.setString(1, typeOfTour.getName());
+            preparedStatement.setInt(2, typeOfTour.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

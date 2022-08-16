@@ -20,8 +20,8 @@
         <th>Название</th>
         <th>Цена</th>
         <th>Сложность</th>
-        <%--        <th>Тип</th>--%>
-        <%--        <th>Дополнительно</th>--%>
+        <th>Тип</th>
+        <th>Дополнительно</th>
         <th>Заказать</th>
         <th>Изменить</th>
         <th>Удалить</th>
@@ -31,24 +31,26 @@
 
     <c:forEach var="tour" items="${ListOfTours}">
         <c:forEach var="complexity" items="${getComplexity}">
-            <%--            <c:forEach var="typeOfTour" items="${ListOfTypeOfTour}" >--%>
+
 
             <tr>
                 <td>${tour.id}</td>
                 <td>${tour.name}</td>
                 <td>${tour.price}</td>
-                <td>${complexity.tour.complexityId}</td>
-                    <%--                    <td>${typeOfTour.name}</td>--%>
-                    <%--                    <td>${typeOfTour.name}</td>--%>
+                <td>${complexity.name}</td>
+                <c:forEach var="typeOfTour" items="${ListOfTypeOfTour}">
+                    <td>${typeOfTour.name}</td>
+                </c:forEach>
                 <td><a href="/Tourism/tour/chooseTour/${tour.id}">Выбрать</a></td>
                 <td><a href="/Tourism/tour/editTour/${tour.id}">Изменить</a></td>
-                <td><a href="/Tourism/tour/removeTour/${tour.id}">Удалить</a></td>
+                <td><a href="/Tourism/tour/removeTour/${tour.id}"
+                       onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
             </tr>
-            <%--            </c:forEach>--%>
         </c:forEach>
+
     </c:forEach>
 </table>
-
-<p><a href="../../../index.jsp">Вернуться на главную</a></p>
+<p><a href="/Tourism/tour/addTour">Добавить новый тур</a></p>
+<p><a href="/Tourism/">Вернуться на главную</a></p>
 </body>
 </html>
