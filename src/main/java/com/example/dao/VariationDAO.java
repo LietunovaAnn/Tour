@@ -11,6 +11,17 @@ import java.util.List;
 
 public class VariationDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private static VariationDAO instance;
+
+    private VariationDAO() {
+    }
+
+    public static VariationDAO getInstance() {
+        if (instance == null) {
+            instance = new VariationDAO();
+        }
+        return instance;
+    }
 
     public List<Variation> showAllVariation() {
         List<Variation> variations = new ArrayList<>();
@@ -27,7 +38,7 @@ public class VariationDAO {
 
     public List<Variation> getVariation(int id) {
         ResultSet resultSet = null;
-        List<Variation> variation = null;
+        List<Variation> variation = new ArrayList<>();
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM VARIATION WHERE TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);

@@ -10,6 +10,7 @@ public class WebMVCInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
+
         return new Class[]{AppConfig.class};
     }
 

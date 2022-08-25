@@ -10,7 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TourDAO {
+    private static TourDAO instance;
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+
+    private TourDAO() {
+    }
+
+    public static TourDAO getInstance() {
+        if (instance == null) {
+            instance = new TourDAO();
+        }
+        return instance;
+    }
 
     public List<Tour> showAllTour() {
         List<Tour> tourList = new ArrayList<>();
@@ -63,8 +74,8 @@ public class TourDAO {
     }
 
     public boolean addTour(Tour tour) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                ("INSERT INTO TOUR VALUES (TOUR_SEQ.nextval, ?, ?, ?) ")) {
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("INSERT INTO TOUR VALUES (TOUR_SEQ.nextval, ?, ?, ?) ")) {
             preparedStatement.setString(1, tour.getName());
             preparedStatement.setInt(2, tour.getPrice());
             preparedStatement.setInt(3, tour.getComplexityId());
@@ -77,8 +88,8 @@ public class TourDAO {
     }
 
     public boolean editTour(Tour tour) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                ("UPDATE TOUR set TOUR_NAME = ?, TOUR_PRICE = ?, COMPLEXITY_ID = ? WHERE TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("UPDATE TOUR set TOUR_NAME = ?, TOUR_PRICE = ?, COMPLEXITY_ID = ? WHERE TOUR_ID = ?")) {
             preparedStatement.setString(1, tour.getName());
             preparedStatement.setInt(2, tour.getPrice());
             preparedStatement.setInt(3, tour.getComplexityId());

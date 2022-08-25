@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <html>
 <head>
     <title>Complexity</title>
@@ -25,13 +26,19 @@
         <tr>
             <td>${сomplexity.id}</td>
             <td>${сomplexity.name}</td>
-            <td><a href="/Tourism/editComplexity/${сomplexity.id}">Изменить</a></td>
-            <td><a href="/Tourism/removeComplexity/${сomplexity.id}">Удалить</a></td>
+            <security:authorize access="hasRole('ADMIN')">
+                <td><a href="/Tourism/editComplexity/${сomplexity.id}">Изменить</a></td>
+                <td><a href="/Tourism/removeComplexity/${сomplexity.id}">Удалить</a></td>
+            </security:authorize>
+            <security:csrfInput/>
         </tr>
     </c:forEach>
 
 </table>
-<p><a href="/Tourism/addComplexity">Добавить новый вид</a></p>
+<security:authorize access="hasRole('ADMIN')">
+    <p><a href="/Tourism/addComplexity">Добавить новый вид</a></p>
+</security:authorize>
+<security:csrfInput/>
 <p><a href="/Tourism/">Вернуться на главную</a></p>
 </body>
 </html>

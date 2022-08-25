@@ -4,7 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class OracleDAOFactoryImpl implements DAOFactory {
+public class OracleDAOFactoryImpl {
+
+//    @Value("${spring.datasource.url}")
+//    private static String DB_URL;
+//    @Value("${spring.datasource.script}")
+//    private static String DB_USERNAME;
+//    @Value("${spring.datasource.password}")
+//    private static String DB_PASSWORD;
+//    @Value("${spring.datasource.driver-class-name}")
+//    private static  String DRIVER;
 
     public static final String DB_URL = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
     public static final String DB_USERNAME = "ann";
@@ -37,7 +46,6 @@ public class OracleDAOFactoryImpl implements DAOFactory {
         return connection;
     }
 
-    @Override
     public void disconnect() {
         try {
             connection.close();
@@ -46,43 +54,4 @@ public class OracleDAOFactoryImpl implements DAOFactory {
         }
     }
 
-    @Override
-    public TourDAO getTourDAO() {
-        return new TourDAO();
-    }
-
-    @Override
-    public OrderDAO getOrderDAO() {
-        return new OrderDAO();
-    }
-
-    @Override
-    public CustomerDAO getCustomerDAO() {
-        return new CustomerDAO();
-    }
-
-    @Override
-    public ComplexityDAO getComplexityDAO() {
-        return new ComplexityDAO();
-    }
-
-    @Override
-    public DiscountDAO getDiscountDAO() {
-        return new DiscountDAO();
-    }
-
-    @Override
-    public TypeOfTourDAO getTypeOfTourDAO() {
-        return new TypeOfTourDAO();
-    }
-
-    @Override
-    public VariationDAO getVariationDAO() {
-        return new VariationDAO();
-    }
-
-    @Override
-    public void close() throws Exception {
-        disconnect();
-    }
 }

@@ -10,7 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComplexityDAO {
+    private static ComplexityDAO instance;
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+
+    private ComplexityDAO() {
+    }
+
+    public static ComplexityDAO getInstance() {
+        if (instance == null) {
+            instance = new ComplexityDAO();
+        }
+        return instance;
+    }
 
     public List<Complexity> showAllComplexity() {
         List<Complexity> complexityList = new ArrayList<>();

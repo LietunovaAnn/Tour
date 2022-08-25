@@ -11,6 +11,18 @@ import java.util.List;
 
 public class DiscountDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private static DiscountDAO instance;
+
+    private DiscountDAO() {
+    }
+
+    public static DiscountDAO getInstance() {
+        if (instance == null) {
+            instance = new DiscountDAO();
+        }
+        return instance;
+    }
+
 
     public List<Discount> showAllDiscounts() {
         List<Discount> discounts = new ArrayList<>();

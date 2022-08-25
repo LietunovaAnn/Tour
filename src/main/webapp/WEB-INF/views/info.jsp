@@ -7,23 +7,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page errorPage="errorPage.jsp" %>
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Information</title>
     <style>
-        <%@include file="/css/info.css" %>
+        <%@include file="/resources/css/info.css" %>
     </style>
 </head>
 <body>
-
-
 <div class="right_col">
     <div class="inside-right_col">
         <div class="caption"><h2>Спортивный туризм</h2></div>
         <div class="right_col-text">
-            <img class="leftfoto" alt="Картинка" src="/img/24.jpg">
+            <img class="leftfoto" alt="Картинка" src="<c:url value="/resources/img/24.jpg"/>"/>
+
             <p>Туризм – своеобразный вид активной физической деятельности человека в период подготовки или
                 непосредственного проведения путешествия. Он характеризуется очень широкой программой – от походов
                 выходного дня до путешествий высокой сложности. </p>
@@ -78,7 +78,7 @@
                     поставленной цели. Общение с людьми дает человеку возможность духовного обогащения, расширяет
                     кругозор.
                 </li>
-                <img class="rightfoto" alt="Картинка" src="<c:url value="/img/15.jpg"/>"/>">
+                <img class="rightfoto" alt="Картинка" src="<c:url value="/resources/img/15.jpg"/>"/>
                 <li>Изменение мировозрения: находясь в походе, человек лучше познает себя, учится оценивать свои силы и
                     возможности
                     уже применительно к другой, более жизненной обстановке.

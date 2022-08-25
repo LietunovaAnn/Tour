@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/info")
+@RequestMapping
 public class InfoController {
 
-    @GetMapping
-    public ModelAndView viewAllStudents() {
+    @GetMapping(value = "/info")
+    public ModelAndView info() {
         return new ModelAndView("info");
     }
 

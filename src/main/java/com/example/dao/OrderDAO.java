@@ -11,8 +11,19 @@ import java.util.List;
 
 public class OrderDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private static OrderDAO instance;
 
-    public List<Order> showAllTour() {
+    private OrderDAO() {
+    }
+
+    public static OrderDAO getInstance() {
+        if (instance == null) {
+            instance = new OrderDAO();
+        }
+        return instance;
+    }
+
+    public List<Order> showAllOrder() {
         List<Order> orderList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ORDERS");
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -23,6 +34,20 @@ public class OrderDAO {
             e.printStackTrace();
         }
         return orderList;
+    }
+
+    public boolean addOrder(Order order) {
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("INSERT INTO ORDERS VALUES (ORDERS_SEQ.nextval, ?, ?, ?) ")) {
+            preparedStatement.setInt(1, order.getTourId());
+            preparedStatement.setInt(2, order.getCustomerId());
+            preparedStatement.setInt(3, order.getDiscountPrise());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public Order getOrder(int id) {

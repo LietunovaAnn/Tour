@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+
 <html>
 <head>
     <title>Discount</title>
@@ -29,12 +31,13 @@
             <td>${discount.percent}</td>
             <td><a href="/Tourism/editDiscount/${discount.id}">Изменить</a></td>
             <td><a href="/Tourism/removeDiscount/${discount.id}">Удалить</a></td>
+
         </tr>
     </c:forEach>
 
 </table>
-
 <p><a href="/Tourism/addDiscount">Добавить новую скидку</a></p>
+
 <p><a href="/Tourism/">Вернуться на главную</a></p>
 
 </body>

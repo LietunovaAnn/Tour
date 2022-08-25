@@ -10,7 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAO {
+    private static CustomerDAO instance;
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+
+    private CustomerDAO() {
+    }
+
+    public static CustomerDAO getInstance() {
+        if (instance == null) {
+            instance = new CustomerDAO();
+        }
+        return instance;
+    }
 
     public List<Customer> showAllCustomers() {
         List<Customer> customerList = new ArrayList<>();
@@ -26,7 +37,7 @@ public class CustomerDAO {
         return customerList;
     }
 
-    public Customer getCustomer(int id) {
+    public Customer getCustomerById(int id) {
         ResultSet resultSet = null;
         Customer customer = null;
         try (PreparedStatement preparedStatement =
@@ -48,6 +59,31 @@ public class CustomerDAO {
             }
         }
         return customer;
+    }
+
+    public Customer getCustomer(Customer customer) {
+        ResultSet resultSet = null;
+        Customer customerFromDb = null;
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("SELECT * FROM CUSTOMERS WHERE CUSTOMERS_NAME = ? and CUSTOMERS_EMAIL = ?")) {
+            preparedStatement.setString(1, customer.getName());
+            preparedStatement.setString(2, customer.getEmail());
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customerFromDb = parseCustomer(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return customerFromDb;
     }
 
     private Customer parseCustomer(ResultSet resultSet) {
@@ -79,7 +115,7 @@ public class CustomerDAO {
 
     public boolean editCustomer(Customer customer) {
         try (PreparedStatement preparedStatement = connection.prepareStatement
-                ("UPDATE DISCOUNT set CUSTOMERS_NAME = ?, CUSTOMERS_EMAIL = ?, PARTICIPATION_NUMBER = ?" +
+                ("UPDATE CUSTOMERS set CUSTOMERS_NAME = ?, CUSTOMERS_EMAIL = ?, PARTICIPATION_NUMBER = ?" +
                         " WHERE CUSTOMERS_ID = ?")) {
             preparedStatement.setString(1, customer.getName());
             preparedStatement.setString(2, customer.getEmail());
@@ -91,6 +127,20 @@ public class CustomerDAO {
             return false;
         }
         return true;
+    }
+
+    public int editParticipationNumberCustomer(Customer customer) {
+        int participationNumber = customer.getParticipationNumber() + 1;
+        customer.setParticipationNumber(participationNumber);
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE CUSTOMERS set PARTICIPATION_NUMBER = ? WHERE CUSTOMERS_ID = ?")) {
+            preparedStatement.setInt(1, customer.getParticipationNumber());
+            preparedStatement.setInt(2, customer.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return participationNumber;
     }
 
     public boolean removeCustomer(int id) {
