@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.dao.CustomerDAO;
+import com.example.dao.OrderDAO;
 import com.example.entities.Customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/customer")
 public class CustomerController {
-    private static final CustomerDAO dao = CustomerDAO.getInstance();
+    private static final CustomerDAO CUSTOMER_DAO = CustomerDAO.getInstance();
+    private static final OrderDAO ORDER_DAO = OrderDAO.getInstance();
 
 
     @RequestMapping(value = "/viewAllCustomers", method = RequestMethod.GET)
     public ModelAndView viewAllCustomers() {
 
-        return new ModelAndView("customer/viewAllCustomers", "ListOfCustomers", dao.showAllCustomers());
+        return new ModelAndView("customer/viewAllCustomers", "ListOfCustomers", CUSTOMER_DAO.showAllCustomers());
     }
+
 
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
@@ -29,21 +32,22 @@ public class CustomerController {
     @RequestMapping(value = "/saveCustomer", method = RequestMethod.POST)
     public ModelAndView saveCustomer(@ModelAttribute Customer customer) {
         if (customer.getId() == 0) {
-            dao.addCustomer(customer);
+            CUSTOMER_DAO.addCustomer(customer);
         } else {
-            dao.editCustomer(customer);
+            CUSTOMER_DAO.editCustomer(customer);
         }
         return new ModelAndView("redirect:/customer/viewAllCustomers");
     }
 
     @RequestMapping(value = "/editCustomer/{id}", method = RequestMethod.GET)
     public ModelAndView editCustomer(@PathVariable int id) {
-        return new ModelAndView("customer/addCustomer", "command", dao.getCustomerById(id));
+        return new ModelAndView("customer/addCustomer", "command", CUSTOMER_DAO.getCustomerById(id));
     }
 
     @GetMapping(value = "/removeCustomer/{id}")
     public ModelAndView removeCustomer(@PathVariable int id) {
-        dao.removeCustomer(id);
+        ORDER_DAO.removeOrdersByCustomerId(id);
+        CUSTOMER_DAO.removeCustomer(id);
         return new ModelAndView("redirect:/customer/viewAllCustomers");
     }
 

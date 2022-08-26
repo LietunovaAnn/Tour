@@ -12,9 +12,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Registration</title>
-    <style>
-        <%@include file="/resources/css/reg.css" %>
-    </style>
+
+    <link href="resources/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 

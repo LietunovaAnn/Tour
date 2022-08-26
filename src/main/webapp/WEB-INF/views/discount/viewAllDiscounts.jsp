@@ -12,33 +12,52 @@
 <html>
 <head>
     <title>Discount</title>
+    <style>
+        <%@include file="/resources/css/info.css" %>
+    </style>
 </head>
 <body>
-<h2>Скидки: </h2>
-<table border="1" cellpadding="10" cellspacing="10">
-    <tr>
-        <th>№</th>
-        <th>Количество посещенных туров</th>
-        <th>Скидка</th>
-        <th>Изменить</th>
-        <th>Удалить</th>
-    </tr>
+<div class="main">
+    <div class="row">
 
-    <c:forEach var="discount" items="${ListOfDiscounts}">
-        <tr>
-            <td>${discount.id}</td>
-            <td>${discount.participationNumber}</td>
-            <td>${discount.percent}</td>
-            <td><a href="/Tourism/editDiscount/${discount.id}">Изменить</a></td>
-            <td><a href="/Tourism/removeDiscount/${discount.id}">Удалить</a></td>
+        <div class="left_col">
+            <div class="inside-left_col">
+                <ol>
+                    <li><a href="/Tourism/addDiscount">Добавить новую скидку</a></li>
+                    <li><a href="/Tourism/">Вернуться на главную</a></li>
+                    <li><a href="/Tourism/admin">Войти как администратор</a></li>
+                </ol>
+            </div>
+        </div>
+        <div class="right_col">
+            <div class="inside-right_col">
+                <div class="caption"><h2>Скидки:</h2></div>
+                <div class="right_col-text">
+                    <table border="1" cellpadding="10" cellspacing="10">
+                        <tr>
+                            <th>№</th>
+                            <th>Количество посещенных туров</th>
+                            <th>Скидка</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
+                        </tr>
 
-        </tr>
-    </c:forEach>
+                        <c:forEach var="discount" items="${ListOfDiscounts}">
+                            <tr>
+                                <td>${discount.id}</td>
+                                <td>${discount.participationNumber}</td>
+                                <td>${discount.percent}</td>
+                                <td><a href="/Tourism/editDiscount/${discount.id}">Изменить</a></td>
+                                <td><a href="/Tourism/removeDiscount/${discount.id}">Удалить</a></td>
 
-</table>
-<p><a href="/Tourism/addDiscount">Добавить новую скидку</a></p>
+                            </tr>
+                        </c:forEach>
 
-<p><a href="/Tourism/">Вернуться на главную</a></p>
-
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

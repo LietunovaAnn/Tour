@@ -13,16 +13,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Information</title>
-    <style>
-        <%@include file="/resources/css/info.css" %>
-    </style>
+    <link href="resources/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="right_col">
     <div class="inside-right_col">
         <div class="caption"><h2>Спортивный туризм</h2></div>
         <div class="right_col-text">
-            <img class="leftfoto" alt="Картинка" src="<c:url value="/resources/img/24.jpg"/>"/>
+            <img class="leftfoto" alt="Картинка" src="resources/img/24.jpg"/>
 
             <p>Туризм – своеобразный вид активной физической деятельности человека в период подготовки или
                 непосредственного проведения путешествия. Он характеризуется очень широкой программой – от походов
@@ -78,7 +76,7 @@
                     поставленной цели. Общение с людьми дает человеку возможность духовного обогащения, расширяет
                     кругозор.
                 </li>
-                <img class="rightfoto" alt="Картинка" src="<c:url value="/resources/img/15.jpg"/>"/>
+                <img class="rightfoto" alt="Картинка" src="resources/img/15.jpg"/>
                 <li>Изменение мировозрения: находясь в походе, человек лучше познает себя, учится оценивать свои силы и
                     возможности
                     уже применительно к другой, более жизненной обстановке.

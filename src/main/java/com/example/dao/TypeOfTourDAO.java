@@ -12,10 +12,8 @@ import java.util.List;
 public class TypeOfTourDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
     private static TypeOfTourDAO instance;
-
     private TypeOfTourDAO() {
     }
-
     public static TypeOfTourDAO getInstance() {
         if (instance == null) {
             instance = new TypeOfTourDAO();

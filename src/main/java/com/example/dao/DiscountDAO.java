@@ -12,10 +12,8 @@ import java.util.List;
 public class DiscountDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
     private static DiscountDAO instance;
-
     private DiscountDAO() {
     }
-
     public static DiscountDAO getInstance() {
         if (instance == null) {
             instance = new DiscountDAO();
@@ -37,7 +35,31 @@ public class DiscountDAO {
         return discounts;
     }
 
-    public Discount getDiscount(int id) {
+    public Discount getDiscountByParticipationNumber(int participationNumber) {
+        ResultSet resultSet = null;
+        Discount discount = null;
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM DISCOUNT WHERE PARTICIPATION_NUMBER = ?")) {
+            preparedStatement.setInt(1, participationNumber);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                discount = parseDiscount(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return discount;
+    }
+
+    public Discount getDiscountById(int id) {
         ResultSet resultSet = null;
         Discount discount = null;
         try (PreparedStatement preparedStatement =
@@ -67,8 +89,6 @@ public class DiscountDAO {
             preparedStatement.setInt(1, discount.getParticipationNumber());
             preparedStatement.setInt(2, discount.getPercent());
             preparedStatement.executeUpdate();
-//            ResultSet tableKeys = preparedStatement.getGeneratedKeys();
-//            tableKeys.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

@@ -128,7 +128,6 @@ public class CustomerDAO {
         }
         return true;
     }
-
     public int editParticipationNumberCustomer(Customer customer) {
         int participationNumber = customer.getParticipationNumber() + 1;
         customer.setParticipationNumber(participationNumber);

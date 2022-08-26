@@ -26,7 +26,7 @@ public class DiscountController {
     }
 
     @RequestMapping(value = "/saveDiscount", method = RequestMethod.POST)
-    public ModelAndView saveTour(@ModelAttribute Discount discount) {
+    public ModelAndView saveDiscount(@ModelAttribute Discount discount) {
         if (discount.getId() == 0) {
             dao.addDiscount(discount);
         } else {
@@ -37,7 +37,7 @@ public class DiscountController {
 
     @RequestMapping(value = "/editDiscount/{id}", method = RequestMethod.GET)
     public ModelAndView editDiscount(@PathVariable int id) {
-        return new ModelAndView("discount/addDiscount", "command", dao.getDiscount(id));
+        return new ModelAndView("discount/addDiscount", "command", dao.getDiscountById(id));
     }
 
     @GetMapping(value = "/removeDiscount/{id}")

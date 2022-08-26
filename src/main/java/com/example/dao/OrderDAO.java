@@ -12,10 +12,8 @@ import java.util.List;
 public class OrderDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
     private static OrderDAO instance;
-
     private OrderDAO() {
     }
-
     public static OrderDAO getInstance() {
         if (instance == null) {
             instance = new OrderDAO();
@@ -35,19 +33,32 @@ public class OrderDAO {
         }
         return orderList;
     }
-
     public boolean addOrder(Order order) {
         try (PreparedStatement preparedStatement = connection
-                .prepareStatement("INSERT INTO ORDERS VALUES (ORDERS_SEQ.nextval, ?, ?, ?) ")) {
-            preparedStatement.setInt(1, order.getTourId());
-            preparedStatement.setInt(2, order.getCustomerId());
-            preparedStatement.setInt(3, order.getDiscountPrise());
+                .prepareStatement("INSERT INTO ORDERS(ORDERS_ID, TOUR_ID, CUSTOMERS_ID, DISCOUNT_PRICE) VALUES (?, ?, ?, ?) ")) {
+
+            preparedStatement.setInt(1, getNextVal());
+            preparedStatement.setInt(2, order.getTourId());
+            preparedStatement.setInt(3, order.getCustomerId());
+            preparedStatement.setInt(4, order.getDiscountPrise());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = connection
+                    .createStatement().executeQuery("SELECT ORDERS_SEQ.nextval from ORDERS");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Order getOrder(int id) {
@@ -77,6 +88,18 @@ public class OrderDAO {
     public boolean removeOrder(int id) {
         try (PreparedStatement preparedStatement =
                      connection.prepareStatement("DELETE ORDERS WHERE ORDERS_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeOrdersByCustomerId(int id) {
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("DELETE ORDERS WHERE CUSTOMERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

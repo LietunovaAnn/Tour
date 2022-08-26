@@ -15,10 +15,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan({"com.example"})
 public class AppConfig implements WebMvcConfigurer {
     private ApplicationContext applicationContext;
-
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/img/");
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("resources/css/**").addResourceLocations("/resources/css/");
+        registry.addResourceHandler("resources//img/**").addResourceLocations("/resources/img/");
+
     }
 
     @Autowired

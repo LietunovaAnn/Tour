@@ -26,7 +26,6 @@ public class OrderController {
         mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
         return mv;
     }
-
     @RequestMapping(value = "/addOrder/{tour}", method = RequestMethod.POST)
     public ModelAndView addOrder(@PathVariable Tour tour) {
 

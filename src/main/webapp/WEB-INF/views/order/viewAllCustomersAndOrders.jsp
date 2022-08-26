@@ -10,60 +10,82 @@
 <html>
 <head>
     <title>OrdersCustomers</title>
+    <style>
+        <%@include file="/resources/css/info.css" %>
+    </style>
 </head>
 <body>
-<c:forEach var="customer" items="${ListOfCustomers}">
-    <h2>${customer.id}. Клиент ${customer.name} </h2>
-    <h3>Email: ${customer.email}</h3>
-    <h3>Количество купленных туров: ${customer.participationNumber}</h3>
+<div class="main">
+    <div class="row">
+
+        <div class="left_col">
+            <div class="inside-left_col">
+                <ol>
+                    <li><a href="/Tourism/customer/addCustomer">Добавить нового клиента</a></li>
+                    <li><a href="/Tourism/">Вернуться на главную</a></li>
+                </ol>
+            </div>
+        </div>
+        <div class="right_col">
+            <div class="inside-right_col">
+                <div class="caption"><h2>Зарегистрированные клиенты:</h2></div>
+                <div class="right_col-text">
+                    <c:forEach var="customer" items="${ListOfCustomers}">
+                        <h2>${customer.id}. Клиент ${customer.name} </h2>
+                        <h3>Email: ${customer.email}</h3>
+                        <h3>Количество купленных туров: ${customer.participationNumber}</h3>
 
 
-    <c:forEach var="order" items="${ListOfOrders}">
-        <c:if test="${order.customerId == customer.id}">
-            <c:forEach var="tour" items="${ListOfTour}">
-                <c:if test="${order.tourId == tour.id}">
-                    <table border="1" cellpadding="10" cellspacing="10">
-                        <tr>
-                            <th>Название</th>
-                            <th>Цена</th>
-                            <th>Цена со скидкой</th>
-                            <th>Сложность</th>
-                            <th>Тип</th>
-                            <th>Удалить</th>
-                        </tr>
-                        <tr>
-                            <td>${tour.name}</td>
-                            <td>${tour.price}</td>
-                            <td>${order.discountPrise}</td>
-                            <c:forEach var="complexity" items="${ListOfComplexity}">
-                                <c:if test="${complexity.id == tour.complexityId}">
-                                    <td>${complexity.name}</td>
-                                </c:if>
-                            </c:forEach>
-                            <c:set var="type"/>
-                            <c:forEach var="variation" items="${ListOfVariation}">
-                                <c:if test="${variation.tourId == tour.id}">
-                                    <c:forEach var="typeOfTour" items="${ListOfTypeOfTour}">
-                                        <c:if test="${variation.typeOfTourId == typeOfTour.id}">
-                                            <c:set var="type" value="${type} - ${typeOfTour.name}"/>
-                                        </c:if>
-                                    </c:forEach>
-                                </c:if>
-                            </c:forEach>
-                            <td><c:out value="${type}"/></td>
-                            <td><a href="/Tourism/removeOrder/${order.id}"
-                                   onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
-                        </tr>
-                        <br>
-                    </table>
-                </c:if>
-            </c:forEach>
+                        <c:forEach var="order" items="${ListOfOrders}">
+                            <c:if test="${order.customerId == customer.id}">
+                                <c:forEach var="tour" items="${ListOfTour}">
+                                    <c:if test="${order.tourId == tour.id}">
+                                        <table border="1" cellpadding="10" cellspacing="10">
+                                            <tr>
+                                                <th>Название</th>
+                                                <th>Цена</th>
+                                                <th>Цена со скидкой</th>
+                                                <th>Сложность</th>
+                                                <th>Тип</th>
+                                                <th>Удалить</th>
+                                            </tr>
+                                            <tr>
+                                                <td>${tour.name}</td>
+                                                <td>${tour.price}</td>
+                                                <td>${order.discountPrise}</td>
+                                                <c:forEach var="complexity" items="${ListOfComplexity}">
+                                                    <c:if test="${complexity.id == tour.complexityId}">
+                                                        <td>${complexity.name}</td>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:set var="type"/>
+                                                <c:forEach var="variation" items="${ListOfVariation}">
+                                                    <c:if test="${variation.tourId == tour.id}">
+                                                        <c:forEach var="typeOfTour" items="${ListOfTypeOfTour}">
+                                                            <c:if test="${variation.typeOfTourId == typeOfTour.id}">
+                                                                <c:set var="type" value="${type} - ${typeOfTour.name}"/>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <td><c:out value="${type}"/></td>
+                                                <td><a href="/Tourism/removeOrder/${order.id}"
+                                                       onclick="return confirm('Do you really want to delete?')">Удалить</a>
+                                                </td>
+                                            </tr>
+                                            <br>
+                                        </table>
+                                    </c:if>
+                                </c:forEach>
 
 
-        </c:if>
-    </c:forEach>
-</c:forEach>
-
-<p><a href="/Tourism/">Вернуться на главную</a></p>
+                            </c:if>
+                        </c:forEach>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -74,7 +74,7 @@ public class ComplexityDAO {
 
     public boolean editComplexity(Complexity complexity) {
         try (PreparedStatement preparedStatement = connection.prepareStatement
-                ("UPDATE DISCOUNT set COMPLEXITY_NAME = ? WHERE COMPLEXITY_ID = ?")) {
+                ("UPDATE COMPLEXITY set COMPLEXITY_NAME = ? WHERE COMPLEXITY_ID = ?")) {
             preparedStatement.setString(1, complexity.getName());
             preparedStatement.setInt(2, complexity.getId());
             preparedStatement.executeUpdate();

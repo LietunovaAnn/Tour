@@ -12,10 +12,8 @@ import java.util.List;
 public class VariationDAO {
     private final static Connection connection = OracleDAOFactoryImpl.getConnection();
     private static VariationDAO instance;
-
     private VariationDAO() {
     }
-
     public static VariationDAO getInstance() {
         if (instance == null) {
             instance = new VariationDAO();

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class TourRegistrationController {
     private final OrderDAO orderDAO = OrderDAO.getInstance();
     private final CustomerDAO customerDAO = CustomerDAO.getInstance();
+    private final DiscountDAO discountDAO = DiscountDAO.getInstance();
 
     private Tour tour;
 
@@ -39,13 +40,22 @@ public class TourRegistrationController {
             customerFromDb = customerDAO.getCustomer(customer);
         }
 
+
         Order order = new Order();
         order.setTourId(tour.getId());
         order.setCustomerId(customerFromDb.getId());
         order.setDiscountPrise(customerDAO.editParticipationNumberCustomer(customerFromDb));
-        orderDAO.addOrder(order);
-        return new ModelAndView("redirect:../../index");
-    }
 
+        int priceWithDiscount = tour.getPrice();
+        if (discountDAO.getDiscountByParticipationNumber(customerFromDb.getParticipationNumber()) != null) {
+            int percent = discountDAO.getDiscountByParticipationNumber(customerFromDb.getParticipationNumber()).getPercent();
+            if (percent != 0) {
+                priceWithDiscount *= (double) (100 - percent) / 100;
+            }
+        }
+        order.setDiscountPrise(priceWithDiscount);
+        orderDAO.addOrder(order);
+        return new ModelAndView("redirect:/");
+    }
 
 }

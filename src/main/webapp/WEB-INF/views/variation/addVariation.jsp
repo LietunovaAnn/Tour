@@ -10,29 +10,42 @@
 <html>
 <head>
     <title>Add Variation</title>
+
+    <link href="resources/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h1>Создать новую варианцию тура: </h1>
-<form:form action="/Tourism/saveVariation" method="post">
-    <table>
-            <%--        <tr>--%>
-            <%--            <td>Enter id:</td>--%>
-            <%--            <td><form:input path="id"/></td>--%>
-            <%--        </tr>--%>
-        <tr>
-            <td>№ Тура:</td>
-            <td><form:input path="name"/></td>
-        </tr>
-        <tr>
-            <td>№ Вид тура:</td>
-            <td><form:input path="price"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save"/></td>
-        </tr>
-    </table>
-</form:form>
+<div class="row">
 
+    <div class="left_col">
+        <div class="inside-left_col">
+            <li><a href="/Tourism/">Вернуться на главную</a></li>
+        </div>
+    </div>
+    <div class="right_col">
+        <div class="inside-right_col">
+            <div class="caption"><h2>Введите данные варианции тура:</h2></div>
+            <div class="right_col-text">
+
+                <form:form action="/Tourism/saveVariation" method="post">
+                    <table>
+                        <form:hidden path="id"/>
+                        <tr>
+                            <td>№ Тура:</td>
+                            <td><form:input path="name"/></td>
+                        </tr>
+                        <tr>
+                            <td>№ Вид тура:</td>
+                            <td><form:input path="price"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="Save"/></td>
+                        </tr>
+                    </table>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
