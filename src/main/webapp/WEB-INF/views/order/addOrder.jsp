@@ -10,6 +10,8 @@
 <html>
 <head>
     <title>Add Order</title>
+
+    <link href="${pageContext.request.contextPath}/resources/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>Создать новый тур: </h1>

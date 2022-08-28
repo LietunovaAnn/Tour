@@ -68,7 +68,7 @@ body {
 img.leftfoto {
     float: right;
     margin: 2px 10px 2px 10px;
-    width: 200;
+    width: 200px;
     height: 350px;
 }
 
@@ -117,15 +117,20 @@ img.rightfoto {
 
 .inside-header,
 .inside-right_col,
+.inside-right_col_cust,
 .inside-left_col,
 .inside-footer {
     background: #ffffcc;
 }
 
+.inside-right_col_cust {
+    word-wrap: break-word;
+}
+
 .inside-right_col,
 .inside-left_col {
     min-height: 1200px;
-    word-wrap: break-word;
+    word-wrap: normal;
 
 }
 
@@ -144,7 +149,8 @@ h2 {
     display: block;
 }
 
-.inside-right_col {
+.inside-right_col,
+.inside-right_col_cust {
     margin-top: -20px;
     margin-bottom: -20px;
 }
@@ -197,12 +203,13 @@ p {
 
 #login {
     background-image: url(../img/22.jpg);
+
     height: 240px;
     width: 265px;
     margin: -150px 0 0 -230px;
     padding: 10px;
     position: absolute;
-    top: 55%;
+    top: 25%;
     left: 23%;
 
 }

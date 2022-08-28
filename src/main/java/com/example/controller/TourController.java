@@ -25,12 +25,6 @@ public class TourController {
         return mv;
     }
 
-//    @GetMapping(value = "/chooseTour/{id}")
-//    public ModelAndView chooseTour(@PathVariable int id) {
-//
-//        return new ModelAndView("tourRegistration", "tour", dao.getTour(id));
-//    }
-
     @RequestMapping(value = "/addTour", method = RequestMethod.GET)
     public ModelAndView addTour() {
         return new ModelAndView("tour/addTour", "command", new Tour());

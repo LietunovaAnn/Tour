@@ -19,17 +19,17 @@ public class ComplexityController {
         return new ModelAndView("complexity/viewAllComplexity", "ListOfComplexity", COMPLEXITY_DAO.showAllComplexity());
     }
 
-    @RequestMapping(value = "/addComplexity", method = RequestMethod.GET)
+    @GetMapping(value = "/addComplexity")
     public ModelAndView addComplexity() {
         return new ModelAndView("complexity/addComplexity", "command", new Complexity());
     }
 
-    @RequestMapping(value = "/editComplexity/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/editComplexity/{id}")
     public ModelAndView editComplexity(@PathVariable int id) {
         return new ModelAndView("complexity/addComplexity", "command", COMPLEXITY_DAO.getComplexity(id));
     }
 
-    @RequestMapping(value = "/saveComplexity", method = RequestMethod.POST)
+    @PostMapping(value = "/saveComplexity")
     public ModelAndView saveComplexity(@ModelAttribute Complexity complexity) {
         if (complexity.getId() == 0) {
             COMPLEXITY_DAO.addComplexity(complexity);

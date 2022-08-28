@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.dao.*;
 import com.example.entities.Order;
-import com.example.entities.Tour;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,20 +23,6 @@ public class OrderController {
         mv.addObject("ListOfComplexity", ComplexityDAO.getInstance().showAllComplexity());
         mv.addObject("ListOfVariation", VariationDAO.getInstance().showAllVariation());
         mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
-        return mv;
-    }
-    @RequestMapping(value = "/addOrder/{tour}", method = RequestMethod.POST)
-    public ModelAndView addOrder(@PathVariable Tour tour) {
-
-        ModelAndView mv = new ModelAndView("order/addOrder", "command", new Order());
-        mv.addObject("Tour", TourDAO.getInstance().getTour(tour.getId()));
-
-
-//        mv.addObject("Complexity", ComplexityDAO.getInstance().getComplexity(tour.getComplexityId()));
-//        mv.addObject("Variation", VariationDAO.getInstance().getVariation(tour.getId()));
-//        mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
-        //   mv.addObject("Customer", CustomerDAO.getInstance().getCustomer())
-
         return mv;
     }
 

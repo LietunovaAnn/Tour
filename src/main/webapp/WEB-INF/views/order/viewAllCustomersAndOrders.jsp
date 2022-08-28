@@ -7,34 +7,39 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <html>
 <head>
     <title>OrdersCustomers</title>
-    <style>
-        <%@include file="/resources/css/info.css" %>
-    </style>
+    <link href="${pageContext.request.contextPath}/resources/css/col.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="main">
-    <div class="row">
+<div class="rar">
 
-        <div class="left_col">
-            <div class="inside-left_col">
-                <ol>
-                    <li><a href="/Tourism/customer/addCustomer">Добавить нового клиента</a></li>
-                    <li><a href="/Tourism/">Вернуться на главную</a></li>
-                </ol>
-            </div>
+    <div class="header" id="head">
+        <div class="inside-header">
+            <div class="header-photo"></div>
         </div>
+        <div>
+            <ul id="navbar" style="top: auto">
+                <li><a href="/Tourism/" target="_self">Главная</a></li>
+                <li><a href="/Tourism/login">Aдмин</a></li>
+                <security:authorize access="hasRole('ADMIN')">
+                    <li><a href="/Tourism/customer/addCustomer">Добавить нового клиента</a></li>
+                </security:authorize>
+                <security:csrfInput/>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
         <div class="right_col">
             <div class="inside-right_col">
-                <div class="caption"><h2>Зарегистрированные клиенты:</h2></div>
                 <div class="right_col-text">
+                    <h2>Зарегистрированные клиенты:</h2>
                     <c:forEach var="customer" items="${ListOfCustomers}">
                         <h2>${customer.id}. Клиент ${customer.name} </h2>
                         <h3>Email: ${customer.email}</h3>
                         <h3>Количество купленных туров: ${customer.participationNumber}</h3>
-
 
                         <c:forEach var="order" items="${ListOfOrders}">
                             <c:if test="${order.customerId == customer.id}">
@@ -77,7 +82,6 @@
                                         </table>
                                     </c:if>
                                 </c:forEach>
-
 
                             </c:if>
                         </c:forEach>

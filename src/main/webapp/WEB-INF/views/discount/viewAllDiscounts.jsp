@@ -12,46 +12,56 @@
 <html>
 <head>
     <title>Discount</title>
-    <style>
-        <%@include file="/resources/css/info.css" %>
-    </style>
+    <link href="${pageContext.request.contextPath}/resources/css/col.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="main">
-    <div class="row">
+<div class="rar">
 
-        <div class="left_col">
-            <div class="inside-left_col">
-                <ol>
-                    <li><a href="/Tourism/addDiscount">Добавить новую скидку</a></li>
-                    <li><a href="/Tourism/">Вернуться на главную</a></li>
-                    <li><a href="/Tourism/admin">Войти как администратор</a></li>
-                </ol>
-            </div>
+    <div class="header" id="head">
+        <div class="inside-header">
+            <div class="header-photo"></div>
         </div>
+        <div>
+            <ul id="navbar" style="top: auto">
+                <li><a href="/Tourism/" target="_self">Главная</a></li>
+                <li><a href="/Tourism/login">Aдмин</a></li>
+                <security:authorize access="hasRole('ADMIN')">
+                    <li><a href="/Tourism/addDiscount">Добавить новую скидку</a></li>
+                </security:authorize>
+                <security:csrfInput/>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
         <div class="right_col">
             <div class="inside-right_col">
-                <div class="caption"><h2>Скидки:</h2></div>
                 <div class="right_col-text">
-                    <table border="1" cellpadding="10" cellspacing="10">
-                        <tr>
-                            <th>№</th>
-                            <th>Количество посещенных туров</th>
-                            <th>Скидка</th>
+                    <<h2>Скидки:</h2></div>
+
+                <table border="1" cellpadding="10" cellspacing="10">
+                    <tr>
+                        <th>№</th>
+                        <th>Количество посещенных туров</th>
+                        <th>Скидка</th>
+                        <security:authorize access="hasRole('ADMIN')">
                             <th>Изменить</th>
                             <th>Удалить</th>
-                        </tr>
+                        </security:authorize>
+                        <security:csrfInput/>
+                    </tr>
 
-                        <c:forEach var="discount" items="${ListOfDiscounts}">
-                            <tr>
-                                <td>${discount.id}</td>
-                                <td>${discount.participationNumber}</td>
-                                <td>${discount.percent}</td>
+                    <c:forEach var="discount" items="${ListOfDiscounts}">
+                        <tr>
+                            <td>${discount.id}</td>
+                            <td>${discount.participationNumber}</td>
+                            <td>${discount.percent}</td>
+                            <security:authorize access="hasRole('ADMIN')">
                                 <td><a href="/Tourism/editDiscount/${discount.id}">Изменить</a></td>
                                 <td><a href="/Tourism/removeDiscount/${discount.id}">Удалить</a></td>
-
-                            </tr>
-                        </c:forEach>
+                            </security:authorize>
+                            <security:csrfInput/>
+                        </tr>
+                    </c:forEach>
 
                     </table>
                 </div>

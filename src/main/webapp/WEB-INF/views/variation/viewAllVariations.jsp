@@ -13,31 +13,37 @@
 <head>
     <title>Variations</title>
 
-    <link href="resources/css/info.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/css/info.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="main">
-    <div class="row">
-
-        <div class="left_col">
-            <div class="inside-left_col">
-                <ol>
-                    <li><a href="/Tourism/tour/addTour">Добавить новый тур</a></li>
-                    <li><a href="/Tourism/">Вернуться на главную</a></li>
-                    <li><a href="/Tourism/admin">Войти как администратор</a></li>
-                </ol>
-            </div>
+<div class="rar">
+    <div class="header" id="head">
+        <div class="inside-header">
+            <div class="header-photo"></div>
         </div>
+        <div>
+            <ul id="navbar" style="top: auto">
+                <li><a href="/Tourism/" target="_self">Главная</a></li>
+                <li><a href="/Tourism/login">Aдмин</a></li>
+                <security:authorize access="hasRole('ADMIN')">
+                    <li><a href="/Tourism/tour/addTour">Добавить новый тур</a></li>
+                </security:authorize>
+                <security:csrfInput/>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
         <div class="right_col">
             <div class="inside-right_col">
-                <div class="caption"><h2>Виды туров:</h2></div>
                 <div class="right_col-text">
+                    <h2>Виды туров:</h2>
                     <table border="1" cellpadding="10" cellspacing="10">
                         <tr>
                             <th>№</th>
                             <th>Название</th>
+                            <th>Изменить</th>
+                            <th>Удалить</th>
                         </tr>
-
                         <c:forEach var="variation" items="${ListOfVariation}">
                             <tr>
                                 <td>${variation.tourId}</td>
