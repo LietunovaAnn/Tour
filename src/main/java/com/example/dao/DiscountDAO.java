@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiscountDAO {
-    private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
     private static DiscountDAO instance;
     private DiscountDAO() {
     }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypeOfTourDAO {
-    private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
     private static TypeOfTourDAO instance;
     private TypeOfTourDAO() {
     }

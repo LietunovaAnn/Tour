@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 public class Order {
     @Id
     @SequenceGenerator(name = "seq", sequenceName = "ORDERS_SEQ")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Integer id;
     private int tourId;
     private int customerId;

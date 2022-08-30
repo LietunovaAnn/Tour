@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TourDAO {
     private static TourDAO instance;
-    private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
 
     private TourDAO() {
     }

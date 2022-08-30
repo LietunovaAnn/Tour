@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CustomerDAO {
     private static CustomerDAO instance;
-    private final static Connection connection = OracleDAOFactoryImpl.getConnection();
+    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
 
     private CustomerDAO() {
     }
