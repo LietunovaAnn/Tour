@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         <div class="right_col">
-            <div class="inside-right_col">
+            <div class="inside-right_col_cust">
                 <div class="right_col-text">
                     <h2>Зарегистрированные клиенты:</h2>
                     <c:forEach var="customer" items="${ListOfCustomers}">
@@ -45,7 +45,7 @@
                             <c:if test="${order.customerId == customer.id}">
                                 <c:forEach var="tour" items="${ListOfTour}">
                                     <c:if test="${order.tourId == tour.id}">
-                                        <table border="1" cellpadding="10" cellspacing="10">
+                                        <table cellpadding="10" cellspacing="10">
                                             <tr>
                                                 <th>Название</th>
                                                 <th>Цена</th>

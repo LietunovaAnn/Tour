@@ -36,7 +36,7 @@
             <div class="inside-right_col">
                 <div class="right_col-text">
                     <h2>Виды сложности:</h2>
-                    <table border="1" cellpadding="10" cellspacing="10">
+                    <table cellpadding="10" cellspacing="10">
                         <tr>
                             <th>№</th>
                             <th>Наименование</th>
@@ -53,7 +53,8 @@
                                 <td>${сomplexity.name}</td>
                                 <security:authorize access="hasRole('ADMIN')">
                                     <td><a href="/Tourism/editComplexity/${сomplexity.id}">Изменить</a></td>
-                                    <td><a href="/Tourism/removeComplexity/${сomplexity.id}">Удалить</a></td>
+                                    <td><a href="/Tourism/removeComplexity/${сomplexity.id}"
+                                           onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
                                 </security:authorize>
                                 <security:csrfInput/>
                             </tr>

@@ -42,11 +42,13 @@
                             </tr>
                             <tr>
                                 <td>Цена:</td>
-                                <td><form:input path="price"/></td>
+                                <td><form:input path="price"/>
+                                    <form:errors path="price"/></td>
                             </tr>
                             <tr>
                                 <td>Сложность:</td>
-                                <td><form:input path="complexityId"/></td>
+                                <td><form:input path="complexityId"/>
+                                    <form:errors path="complexityId"/></td>
                             </tr>
                             <tr>
                                 <td></td>

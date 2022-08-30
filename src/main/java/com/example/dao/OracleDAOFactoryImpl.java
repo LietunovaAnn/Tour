@@ -1,14 +1,19 @@
 package com.example.dao;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+@Component
+//@PropertySource("classpath:app.properties")
 public class OracleDAOFactoryImpl {
 
 //    @Value("${spring.datasource.url}")
 //    private static String DB_URL;
-//    @Value("${spring.datasource.script}")
+//    @Value("${spring.datasource.username}")
 //    private static String DB_USERNAME;
 //    @Value("${spring.datasource.password}")
 //    private static String DB_PASSWORD;
@@ -36,6 +41,7 @@ public class OracleDAOFactoryImpl {
         if (connection == null) {
             try {
                 //DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+                System.out.println(DRIVER);
                 Class.forName(DRIVER);
                 connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             } catch (SQLException | ClassNotFoundException e) {

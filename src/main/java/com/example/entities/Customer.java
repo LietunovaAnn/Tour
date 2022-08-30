@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Positive;
 
 @Data
 public class Customer {
@@ -14,6 +16,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private int id;
     private String name;
+    @Email
     private String email;
+    @Positive
     private int participationNumber;
 }

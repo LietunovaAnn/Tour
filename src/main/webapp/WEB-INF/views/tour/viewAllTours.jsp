@@ -37,7 +37,7 @@
                 <div class="right_col-text">
                     <h2>Туры:</h2>
 
-                    <table border="1" cellpadding="10" cellspacing="10">
+                    <table cellpadding="10" cellspacing="10">
                         <tr>
                             <th>№</th>
                             <th>Название</th>

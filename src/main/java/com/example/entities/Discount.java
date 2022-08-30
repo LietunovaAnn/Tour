@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Positive;
 
 
 @Data
@@ -14,8 +15,8 @@ public class Discount {
     @SequenceGenerator(name = "seq", sequenceName = "DISCOUNT_SEQ")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private int id;
-    // @Pattern(regexp = "^\\d")
+    @Positive
     private int participationNumber;
-
+    @Positive
     private int percent;
 }

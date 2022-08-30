@@ -38,11 +38,13 @@
                             <form:hidden path="id"/>
                             <tr>
                                 <td>Количество купленных туров:</td>
-                                <td><form:input path="participationNumber"/></td>
+                                <td><form:input path="participationNumber"/>
+                                    <form:errors path="participationNumber"/></td>
                             </tr>
                             <tr>
                                 <td>Скидка(%):</td>
-                                <td><form:input path="percent"/></td>
+                                <td><form:input path="percent"/>
+                                    <form:errors path="percent"/></td>
                             </tr>
                             <tr>
                                 <td></td>

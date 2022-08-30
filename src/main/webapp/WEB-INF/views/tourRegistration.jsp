@@ -12,17 +12,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Registration</title>
-    <link href="${pageContext.request.contextPath}/resources/css/info.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/css/col.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="main">
+<div class="rar">
     <div class="header">
         <div class="inside-header">
             <div class="header-photo"></div>
         </div>
         <div>
             <ul id="navbar">
-                <li><a href="/Tourism/">Главное</a></li>
+                <li><a href="/Tourism/">Главная</a></li>
                 <li><a href="/Tourism/tour/viewAllTours">Все туры</a></li>
                 <li><a href="/Tourism/viewAllComplexity">Сложность</a></li>
                 <li><a href="/Tourism/viewAllTypeOfTour">Виды туров</a></li>
@@ -31,36 +31,12 @@
     </div>
     <div class="row">
 
-        <div class="left_col">
-            <div class="inside-left_col">
-                <form:form action="/Tourism/addOrder" id="login" method="post" modelAttribute="customer">
-                    <h2>Регистрация на тур </h2>
-                    <table>
-                        <form:hidden path="id"/>
-                        <tr>
-                            <td>Ваше имя:</td>
-                            <td><form:input path="name"/></td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td><form:input path="email"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="submit" value="Save"/></td>
-                        </tr>
-                    </table>
-                </form:form>
-
-            </div>
-        </div>
-
         <div class="right_col">
             <div class="inside-right_col">
-                <div class="caption"><h2>Выбранный тур:</h2></div>
-                <div class="right_col-text">
 
-                    <table border="1" cellpadding="10" cellspacing="10">
+                <div class="right_col-text">
+                    <h2>Выбранный тур:</h2>
+                    <table cellpadding="10" cellspacing="10">
                         <tr>
                             <th>№</th>
                             <th>Название</th>
@@ -86,7 +62,25 @@
                         </tr>
 
                     </table>
-
+                    <br>
+                    <form:form action="/Tourism/addOrder" method="post" modelAttribute="customer">
+                        <h2>Регистрация на тур </h2>
+                        <table>
+                            <form:hidden path="id"/>
+                            <tr>
+                                <td>Ваше имя:</td>
+                                <td><form:input path="name"/></td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><form:input path="email"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="submit" value="Save"/></td>
+                            </tr>
+                        </table>
+                    </form:form>
                 </div>
             </div>
         </div>

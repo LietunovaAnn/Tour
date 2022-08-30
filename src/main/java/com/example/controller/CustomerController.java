@@ -4,8 +4,12 @@ import com.example.dao.CustomerDAO;
 import com.example.dao.OrderDAO;
 import com.example.entities.Customer;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -22,7 +26,6 @@ public class CustomerController {
     }
 
 
-
     @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
     public ModelAndView addCustomer() {
 
@@ -30,13 +33,21 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/saveCustomer", method = RequestMethod.POST)
-    public ModelAndView saveCustomer(@ModelAttribute Customer customer) {
-        if (customer.getId() == 0) {
-            CUSTOMER_DAO.addCustomer(customer);
+    public ModelAndView saveCustomer(@ModelAttribute("customer") @Valid Customer customer,
+                                     BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return new ModelAndView("customer/addCustomer", "command", customer);
         } else {
-            CUSTOMER_DAO.editCustomer(customer);
+            if (customer.getId() == 0) {
+                CUSTOMER_DAO.addCustomer(customer);
+            } else {
+                CUSTOMER_DAO.editCustomer(customer);
+            }
+            return new ModelAndView("redirect:/customer/viewAllCustomers");
+
         }
-        return new ModelAndView("redirect:/customer/viewAllCustomers");
+
     }
 
     @RequestMapping(value = "/editCustomer/{id}", method = RequestMethod.GET)

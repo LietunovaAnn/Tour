@@ -37,15 +37,15 @@
             <div class="inside-right_col">
 
                 <div class="right_col-text">
-                    <h2>Зарегистрированные клиенты:</h2></div>
+                    <h2>Зарегистрированные клиенты:</h2>
 
-                <table border="1" cellpadding="10" cellspacing="10">
-                    <tr>
-                        <th>№</th>
-                        <th>Имя</th>
-                        <th>Еmail</th>
-                        <th>Количество купленных туров</th>
-                        <security:authorize access="hasRole('ADMIN')">
+                    <table cellpadding="10" cellspacing="10">
+                        <tr>
+                            <th>№</th>
+                            <th>Имя</th>
+                            <th>Еmail</th>
+                            <th>Количество купленных туров</th>
+                            <security:authorize access="hasRole('ADMIN')">
                             <th>Изменить</th>
                             <th>Удалить</th>
                         </security:authorize>
@@ -60,7 +60,8 @@
                             <td>${customer.participationNumber}</td>
                             <security:authorize access="hasRole('ADMIN')">
                                 <td><a href="/Tourism/customer/editCustomer/${customer.id}">Изменить</a></td>
-                                <td><a href="/Tourism/customer/removeCustomer/${customer.id}">Удалить</a></td>
+                                <td><a href="/Tourism/customer/removeCustomer/${customer.id}"
+                                       onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
                             </security:authorize>
                             <security:csrfInput/>
                         </tr>

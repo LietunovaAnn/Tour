@@ -65,7 +65,7 @@ public class OrderDAO {
         ResultSet resultSet = null;
         Order order = null;
         try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM ORDERS WHERE ORDER_ID = ?")) {
+                     connection.prepareStatement("SELECT * FROM ORDERS WHERE ORDERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -83,6 +83,29 @@ public class OrderDAO {
             }
         }
         return order;
+    }
+
+    public int getCustomerIdByOrderId(int id) {
+        ResultSet resultSet = null;
+        Order order = null;
+        int customerId = 0;
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT CUSTOMERS_ID FROM ORDERS WHERE ORDERS_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            customerId = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return customerId;
     }
 
     public boolean removeOrder(int id) {

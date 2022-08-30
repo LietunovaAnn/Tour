@@ -4,6 +4,7 @@ package com.example.controller;
 import com.example.dao.DiscountDAO;
 import com.example.entities.Discount;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,10 @@ public class DiscountController {
     }
 
     @RequestMapping(value = "/saveDiscount", method = RequestMethod.POST)
-    public ModelAndView saveDiscount(@ModelAttribute Discount discount) {
+    public ModelAndView saveDiscount(@ModelAttribute Discount discount, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("discount/addDiscount", "command", discount);
+        }
         if (discount.getId() == 0) {
             dao.addDiscount(discount);
         } else {

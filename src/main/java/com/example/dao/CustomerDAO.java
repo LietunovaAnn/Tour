@@ -25,7 +25,7 @@ public class CustomerDAO {
 
     public List<Customer> showAllCustomers() {
         List<Customer> customerList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMERS");
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CUSTOMERS ORDER BY CUSTOMERS_ID");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 customerList.add(parseCustomer(resultSet));
@@ -128,6 +128,22 @@ public class CustomerDAO {
         }
         return true;
     }
+
+    public boolean editCustomerParticipationNumber(Customer customer) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement
+                ("UPDATE CUSTOMERS set PARTICIPATION_NUMBER = ?" +
+                        " WHERE CUSTOMERS_ID = ?")) {
+            customer.setParticipationNumber(customer.getParticipationNumber() - 1);
+            preparedStatement.setInt(1, customer.getParticipationNumber());
+            preparedStatement.setInt(2, customer.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public int editParticipationNumberCustomer(Customer customer) {
         int participationNumber = customer.getParticipationNumber() + 1;
         customer.setParticipationNumber(participationNumber);

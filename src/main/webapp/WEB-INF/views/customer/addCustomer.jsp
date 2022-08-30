@@ -22,7 +22,7 @@
         <div>
             <ul id="navbar">
                 <li><a href="/Tourism/" target="_self">Главная</a></li>
-                <li><a href="/Tourism/viewAllCustomers" target="_self">Назад</a></li>
+                <li><a href="/Tourism/customer/viewAllCustomers" target="_self">Назад</a></li>
             </ul>
         </div>
     </div>
@@ -41,11 +41,13 @@
                             </tr>
                             <tr>
                                 <td>Еmail:</td>
-                                <td><form:input path="email"/></td>
+                                <td><form:input path="email"/>
+                                    <form:errors path="email"/></td>
                             </tr>
                             <tr>
                                 <td>Количество курленных туров:</td>
-                                <td><form:input path="participationNumber"/></td>
+                                <td><form:input path="participationNumber"/>
+                                    <form:errors path="participationNumber"/></td>
                             </tr>
                             <tr>
                                 <td></td>

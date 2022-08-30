@@ -36,14 +36,14 @@
         <div class="right_col">
             <div class="inside-right_col">
                 <div class="right_col-text">
-                    <<h2>Скидки:</h2></div>
+                    <h2>Скидки:</h2>
 
-                <table border="1" cellpadding="10" cellspacing="10">
-                    <tr>
-                        <th>№</th>
-                        <th>Количество посещенных туров</th>
-                        <th>Скидка</th>
-                        <security:authorize access="hasRole('ADMIN')">
+                    <table cellpadding="10" cellspacing="10">
+                        <tr>
+                            <th>№</th>
+                            <th>Количество посещенных туров</th>
+                            <th>Скидка</th>
+                            <security:authorize access="hasRole('ADMIN')">
                             <th>Изменить</th>
                             <th>Удалить</th>
                         </security:authorize>
@@ -57,7 +57,8 @@
                             <td>${discount.percent}</td>
                             <security:authorize access="hasRole('ADMIN')">
                                 <td><a href="/Tourism/editDiscount/${discount.id}">Изменить</a></td>
-                                <td><a href="/Tourism/removeDiscount/${discount.id}">Удалить</a></td>
+                                <td><a href="/Tourism/removeDiscount/${discount.id}"
+                                       onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
                             </security:authorize>
                             <security:csrfInput/>
                         </tr>

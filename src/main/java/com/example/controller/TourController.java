@@ -6,6 +6,7 @@ import com.example.dao.TypeOfTourDAO;
 import com.example.dao.VariationDAO;
 import com.example.entities.Tour;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,7 +38,10 @@ public class TourController {
     }
 
     @RequestMapping(value = "/saveTour", method = RequestMethod.POST)
-    public ModelAndView saveTour(@ModelAttribute("tour") Tour tour) {
+    public ModelAndView saveTour(@ModelAttribute("tour") Tour tour, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("tour/addTour", "command", tour);
+        }
         if (tour.getId() == 0) {
             dao.addTour(tour);
         } else {

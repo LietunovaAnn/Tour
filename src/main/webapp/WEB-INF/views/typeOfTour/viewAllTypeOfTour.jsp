@@ -12,7 +12,7 @@
 <html>
 <head>
     <title>Type Of Tour</title>
-    <link href="${pageContext.request.contextPath}/resources/css/info.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/css/col.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="rar">
@@ -38,12 +38,15 @@
                 <div class="right_col-text">
                     <h2>Виды туров:</h2>
 
-                    <table border="1" cellpadding="10" cellspacing="10">
+                    <table cellpadding="10" cellspacing="10">
                         <tr>
                             <th>№</th>
                             <th>Название</th>
-                            <th>Изменить</th>
-                            <th>Удалить</th>
+                            <security:authorize access="hasRole('ADMIN')">
+                                <th>Изменить</th>
+                                <th>Удалить</th>
+                            </security:authorize>
+                            <security:csrfInput/>
                         </tr>
 
                         <c:forEach var="typeOfTour" items="${ListOfTypeOfTour}">
@@ -52,7 +55,8 @@
                                 <td>${typeOfTour.name}</td>
                                 <security:authorize access="hasRole('ADMIN')">
                                     <td><a href="/Tourism/editTypeOfTour/${typeOfTour.id}">Изменить</a></td>
-                                    <td><a href="/Tourism/removeTypeOfTour/${typeOfTour.id}">Удалить</a></td>
+                                    <td><a href="/Tourism/removeTypeOfTour/${typeOfTour.id}"
+                                           onclick="return confirm('Do you really want to delete?')">Удалить</a></td>
                                 </security:authorize>
                                 <security:csrfInput/>
                             </tr>

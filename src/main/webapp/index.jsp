@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -25,8 +27,13 @@
 
         <div class="left_col">
             <div class="inside-left_col">
-                <li><a href="/Tourism/admin">Войти как администратор</a></li>
-                <li><a href="/Tourism/customer/viewAllCustomers">Клиенты</a></li>
+                <a href="/Tourism/login">Войти как администратор</a>
+
+                <security:authorize access="hasRole('ADMIN')">
+                    Просмотреть данные клиентов.
+                    <li><a href="/Tourism/customer/viewAllCustomers">Клиенты</a></li>
+                </security:authorize>
+                <security:csrfInput/>
             </div>
         </div>
         <div class="right_col">
