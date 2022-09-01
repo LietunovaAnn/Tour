@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +10,13 @@ import java.sql.SQLException;
 
 
 @Component
-public class OracleDAOFactoryImpl {
+public class OracleDAOFactoryImpl extends HikariDataSource {
 
     //    private static final String DB_URL = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
 //    private static final String DB_USERNAME = "ann";
 //    private static final String DB_PASSWORD = "12345";
 //    private static final String DRIVER = "oracle.jdbc.OracleDriver";
-    private static OracleDAOFactoryImpl instance;
+
     @Value("${spring.datasource.url}")
     private String DB_URL;
     @Value("${spring.datasource.username}")
@@ -26,17 +27,25 @@ public class OracleDAOFactoryImpl {
     private String DRIVER;
     private static Connection connection;
 
-    private OracleDAOFactoryImpl() {
-    }
+//    public OracleDAOFactoryImpl(DataSource dataSource) {
+//        this.setDataSource(dataSource);
+//    }
 
-    public static OracleDAOFactoryImpl getInstance() {
-        if (instance == null) {
-            return new OracleDAOFactoryImpl();
-        }
-        return instance;
-    }
+//    @Autowired
+//    public OracleDAOFactoryImpl(@Value("${spring.datasource.driver-class-name}") String driver,
+//                                @Value("${spring.datasource.url}") String url,
+//                                @Value("${spring.datasource.username}") String username,
+//                                @Value("${spring.datasource.password}") String password) {
+//        this.setMaximumPoolSize(20);
+//        this.setDriverClassName(driver);
+//        this.setJdbcUrl(url);
+//        this.setUsername(username);
+//        this.setPassword(password);
+//    }
+
 
     public Connection getConnection() {
+        System.out.println("connection");
         if (connection == null) {
             try {
                 //DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());

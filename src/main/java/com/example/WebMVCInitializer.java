@@ -18,4 +18,6 @@ public class WebMVCInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
+
 }

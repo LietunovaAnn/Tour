@@ -1,29 +1,28 @@
 package com.example.dao;
 
 import com.example.entities.TypeOfTour;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class TypeOfTourDAO {
-    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
-    private static TypeOfTourDAO instance;
-    private TypeOfTourDAO() {
-    }
-    public static TypeOfTourDAO getInstance() {
-        if (instance == null) {
-            instance = new TypeOfTourDAO();
-        }
-        return instance;
+    @Autowired
+    private OracleDAOFactoryImpl oracleDAOFactory;
+
+    @Autowired
+    public TypeOfTourDAO() {
     }
 
     public List<TypeOfTour> showAllTypeOfTour() {
         List<TypeOfTour> types = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM TYPE_OF_TOUR");
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM TYPE_OF_TOUR");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 types.add(parseTypeOfTour(resultSet));
@@ -37,8 +36,8 @@ public class TypeOfTourDAO {
     public TypeOfTour getTypeOfTour(int id) {
         ResultSet resultSet = null;
         TypeOfTour typeOfTour = null;
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM TYPE_OF_TOUR WHERE TYPE_OF_TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM TYPE_OF_TOUR WHERE TYPE_OF_TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -59,8 +58,8 @@ public class TypeOfTourDAO {
     }
 
     public boolean addTypeOfTour(TypeOfTour typeOfTour) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (TYPE_OF_TOUR_SEQ.nextval, ?) ")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (TYPE_OF_TOUR_SEQ.nextval, ?) ")) {
             preparedStatement.setString(1, typeOfTour.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -71,8 +70,8 @@ public class TypeOfTourDAO {
     }
 
     public boolean editTypeOfTour(TypeOfTour typeOfTour) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement
-                ("UPDATE DISCOUNT set TYPE_OF_TOUR_NAME = ? WHERE TYPE_OF_TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("UPDATE DISCOUNT set TYPE_OF_TOUR_NAME = ? WHERE TYPE_OF_TOUR_ID = ?")) {
             preparedStatement.setString(1, typeOfTour.getName());
             preparedStatement.setInt(2, typeOfTour.getId());
             preparedStatement.executeUpdate();
@@ -84,8 +83,8 @@ public class TypeOfTourDAO {
     }
 
     public boolean removeTypeOfTour(int id) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE TYPE_OF_TOUR WHERE TYPE_OF_TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("DELETE TYPE_OF_TOUR WHERE TYPE_OF_TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

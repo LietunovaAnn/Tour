@@ -1,29 +1,29 @@
 package com.example.dao;
 
 import com.example.entities.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class OrderDAO {
-    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
-    private static OrderDAO instance;
-    private OrderDAO() {
-    }
-    public static OrderDAO getInstance() {
-        if (instance == null) {
-            instance = new OrderDAO();
-        }
-        return instance;
+
+    @Autowired
+    private OracleDAOFactoryImpl oracleDAOFactory;
+
+    @Autowired
+    public OrderDAO() {
     }
 
     public List<Order> showAllOrder() {
         List<Order> orderList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ORDERS");
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM ORDERS");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 orderList.add(parseOrder(resultSet));
@@ -33,8 +33,9 @@ public class OrderDAO {
         }
         return orderList;
     }
+
     public boolean addOrder(Order order) {
-        try (PreparedStatement preparedStatement = connection
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
                 .prepareStatement("INSERT INTO ORDERS(ORDERS_ID, TOUR_ID, CUSTOMERS_ID, DISCOUNT_PRICE) VALUES (?, ?, ?, ?) ")) {
 
             preparedStatement.setInt(1, getNextVal());
@@ -52,7 +53,7 @@ public class OrderDAO {
     private int getNextVal() {
         ResultSet resultSet = null;
         try {
-            resultSet = connection
+            resultSet = oracleDAOFactory.getConnection()
                     .createStatement().executeQuery("SELECT ORDERS_SEQ.nextval from ORDERS");
             resultSet.next();
             return resultSet.getInt(1);
@@ -64,8 +65,8 @@ public class OrderDAO {
     public Order getOrder(int id) {
         ResultSet resultSet = null;
         Order order = null;
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM ORDERS WHERE ORDERS_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM ORDERS WHERE ORDERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -89,8 +90,8 @@ public class OrderDAO {
         ResultSet resultSet = null;
         Order order = null;
         int customerId = 0;
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT CUSTOMERS_ID FROM ORDERS WHERE ORDERS_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT CUSTOMERS_ID FROM ORDERS WHERE ORDERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             customerId = resultSet.getInt(1);
@@ -109,8 +110,8 @@ public class OrderDAO {
     }
 
     public boolean removeOrder(int id) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE ORDERS WHERE ORDERS_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("DELETE ORDERS WHERE ORDERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -121,8 +122,8 @@ public class OrderDAO {
     }
 
     public boolean removeOrdersByCustomerId(int id) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE ORDERS WHERE CUSTOMERS_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("DELETE ORDERS WHERE CUSTOMERS_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

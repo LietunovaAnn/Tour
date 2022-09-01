@@ -5,6 +5,7 @@ import com.example.dao.TourDAO;
 import com.example.dao.TypeOfTourDAO;
 import com.example.dao.VariationDAO;
 import com.example.entities.Tour;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +15,22 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/tour")
 public class TourController {
-    private static final TourDAO dao = TourDAO.getInstance();
+    @Autowired
+    private TourDAO tourDAO;
+    @Autowired
+    private ComplexityDAO complexityDAO;
+    @Autowired
+    private VariationDAO variationDAO;
+    @Autowired
+    private TypeOfTourDAO typeOfTourDAO;
 
     @GetMapping(value = "/viewAllTours")
     public ModelAndView viewAllTours() {
         ModelAndView mv = new ModelAndView("tour/viewAllTours");
-        mv.addObject("ListOfTours", dao.showAllTour());
-        mv.addObject("ListOfComplexity", ComplexityDAO.getInstance().showAllComplexity());
-        mv.addObject("ListOfVariation", VariationDAO.getInstance().showAllVariation());
-        mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
+        mv.addObject("ListOfTours", tourDAO.showAllTour());
+        mv.addObject("ListOfComplexity", complexityDAO.showAllComplexity());
+        mv.addObject("ListOfVariation", variationDAO.showAllVariation());
+        mv.addObject("ListOfTypeOfTour", typeOfTourDAO.showAllTypeOfTour());
         return mv;
     }
 
@@ -34,7 +42,7 @@ public class TourController {
     @RequestMapping(value = "/editTour/{id}", method = RequestMethod.GET)
     public ModelAndView editTour(@PathVariable int id) {
 
-        return new ModelAndView("tour/addTour", "command", dao.getTour(id));
+        return new ModelAndView("tour/addTour", "command", tourDAO.getTour(id));
     }
 
     @RequestMapping(value = "/saveTour", method = RequestMethod.POST)
@@ -43,16 +51,16 @@ public class TourController {
             return new ModelAndView("tour/addTour", "command", tour);
         }
         if (tour.getId() == 0) {
-            dao.addTour(tour);
+            tourDAO.addTour(tour);
         } else {
-            dao.editTour(tour);
+            tourDAO.editTour(tour);
         }
         return new ModelAndView("redirect:/tour/viewAllTours");
     }
 
     @GetMapping(value = "/removeTour/{id}")
     public ModelAndView removeTour(@PathVariable int id) {
-        dao.removeTour(id);
+        tourDAO.removeTour(id);
         return new ModelAndView("redirect:/tour/viewAllTours");
     }
 

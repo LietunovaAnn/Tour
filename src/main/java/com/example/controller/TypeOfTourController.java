@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.example.dao.TypeOfTourDAO;
 import com.example.entities.TypeOfTour;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,12 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class TypeOfTourController {
 
-    private static final TypeOfTourDAO dao = TypeOfTourDAO.getInstance();
+    @Autowired
+    private TypeOfTourDAO typeOfTourDAO;
 
     @GetMapping(value = "/viewAllTypeOfTour")
     public ModelAndView viewAllTypeOfTour() {
 
-        return new ModelAndView("typeOfTour/viewAllTypeOfTour", "ListOfTypeOfTour", dao.showAllTypeOfTour());
+        return new ModelAndView("typeOfTour/viewAllTypeOfTour", "ListOfTypeOfTour", typeOfTourDAO.showAllTypeOfTour());
     }
 
     @RequestMapping(value = "/addTypeOfTour", method = RequestMethod.GET)
@@ -27,21 +29,21 @@ public class TypeOfTourController {
     @RequestMapping(value = "/saveTypeOfTour", method = RequestMethod.POST)
     public ModelAndView saveTypeOfTour(@ModelAttribute TypeOfTour typeOfTour) {
         if (typeOfTour.getId() == 0) {
-            dao.addTypeOfTour(typeOfTour);
+            typeOfTourDAO.addTypeOfTour(typeOfTour);
         } else {
-            dao.editTypeOfTour(typeOfTour);
+            typeOfTourDAO.editTypeOfTour(typeOfTour);
         }
         return new ModelAndView("redirect:/viewAllTypeOfTour");
     }
 
     @RequestMapping(value = "/editTypeOfTour/{id}", method = RequestMethod.GET)
     public ModelAndView editTypeOfTour(@PathVariable int id) {
-        return new ModelAndView("typeOfTour/addTypeOfTour", "command", dao.getTypeOfTour(id));
+        return new ModelAndView("typeOfTour/addTypeOfTour", "command", typeOfTourDAO.getTypeOfTour(id));
     }
 
     @GetMapping(value = "/removeTypeOfTour/{id}")
     public ModelAndView removeTypeOfTour(@PathVariable int id) {
-        dao.removeTypeOfTour(id);
+        typeOfTourDAO.removeTypeOfTour(id);
         return new ModelAndView("redirect:/viewAllTypeOfTour");
     }
 

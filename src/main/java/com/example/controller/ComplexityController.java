@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.dao.ComplexityDAO;
 import com.example.entities.Complexity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,12 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class ComplexityController {
 
-    private static final ComplexityDAO COMPLEXITY_DAO = ComplexityDAO.getInstance();
+    // private static final ComplexityDAO COMPLEXITY_DAO = ComplexityDAO.getInstance();
+    @Autowired
+    private ComplexityDAO complexityDAO;
 
     @GetMapping(value = "/viewAllComplexity")
     public ModelAndView viewAllComplexity() {
 
-        return new ModelAndView("complexity/viewAllComplexity", "ListOfComplexity", COMPLEXITY_DAO.showAllComplexity());
+        return new ModelAndView("complexity/viewAllComplexity", "ListOfComplexity", complexityDAO.showAllComplexity());
     }
 
     @GetMapping(value = "/addComplexity")
@@ -26,22 +29,22 @@ public class ComplexityController {
 
     @GetMapping(value = "/editComplexity/{id}")
     public ModelAndView editComplexity(@PathVariable int id) {
-        return new ModelAndView("complexity/addComplexity", "command", COMPLEXITY_DAO.getComplexity(id));
+        return new ModelAndView("complexity/addComplexity", "command", complexityDAO.getComplexity(id));
     }
 
     @PostMapping(value = "/saveComplexity")
     public ModelAndView saveComplexity(@ModelAttribute Complexity complexity) {
         if (complexity.getId() == 0) {
-            COMPLEXITY_DAO.addComplexity(complexity);
+            complexityDAO.addComplexity(complexity);
         } else {
-            COMPLEXITY_DAO.editComplexity(complexity);
+            complexityDAO.editComplexity(complexity);
         }
         return new ModelAndView("redirect:/viewAllComplexity");
     }
 
     @GetMapping(value = "/removeComplexity/{id}")
     public ModelAndView removeComplexity(@PathVariable int id) {
-        COMPLEXITY_DAO.removeComplexity(id);
+        complexityDAO.removeComplexity(id);
         return new ModelAndView("redirect:/viewAllComplexity");
     }
 

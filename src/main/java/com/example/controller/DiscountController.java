@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.example.dao.DiscountDAO;
 import com.example.entities.Discount;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping
 public class DiscountController {
-
-    private static final DiscountDAO dao = DiscountDAO.getInstance();
+    @Autowired
+    private DiscountDAO discountDAO;
 
     @GetMapping(value = "/viewAllDiscounts")
     public ModelAndView viewAllTours() {
 
-        return new ModelAndView("discount/viewAllDiscounts", "ListOfDiscounts", dao.showAllDiscounts());
+        return new ModelAndView("discount/viewAllDiscounts", "ListOfDiscounts", discountDAO.showAllDiscounts());
     }
 
     @RequestMapping(value = "/addDiscount", method = RequestMethod.GET)
@@ -32,21 +33,21 @@ public class DiscountController {
             return new ModelAndView("discount/addDiscount", "command", discount);
         }
         if (discount.getId() == 0) {
-            dao.addDiscount(discount);
+            discountDAO.addDiscount(discount);
         } else {
-            dao.editDiscount(discount);
+            discountDAO.editDiscount(discount);
         }
         return new ModelAndView("redirect:/viewAllDiscounts");
     }
 
     @RequestMapping(value = "/editDiscount/{id}", method = RequestMethod.GET)
     public ModelAndView editDiscount(@PathVariable int id) {
-        return new ModelAndView("discount/addDiscount", "command", dao.getDiscountById(id));
+        return new ModelAndView("discount/addDiscount", "command", discountDAO.getDiscountById(id));
     }
 
     @GetMapping(value = "/removeDiscount/{id}")
     public ModelAndView removeDiscount(@PathVariable int id) {
-        dao.removeDiscount(id);
+        discountDAO.removeDiscount(id);
         return new ModelAndView("redirect:/viewAllDiscounts");
     }
 

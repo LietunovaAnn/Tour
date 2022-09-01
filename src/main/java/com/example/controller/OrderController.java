@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.dao.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,18 +14,29 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class OrderController {
 
-    private static final OrderDAO ORDER_DAO = OrderDAO.getInstance();
+    @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
+    private CustomerDAO customerDAO;
+    @Autowired
+    private TourDAO tourDAO;
+    @Autowired
+    private ComplexityDAO complexityDAO;
+    @Autowired
+    private VariationDAO variationDAO;
+    @Autowired
+    private TypeOfTourDAO typeOfTourDAO;
 
     @RequestMapping(value = "/viewAllCustomersAndOrders", method = RequestMethod.GET)
     public ModelAndView viewAllCustomersAndOrders() {
         ModelAndView mv = new ModelAndView("order/viewAllCustomersAndOrders");
 
-        mv.addObject("ListOfOrders", ORDER_DAO.showAllOrder());
-        mv.addObject("ListOfCustomers", CustomerDAO.getInstance().showAllCustomers());
-        mv.addObject("ListOfTour", TourDAO.getInstance().showAllTour());
-        mv.addObject("ListOfComplexity", ComplexityDAO.getInstance().showAllComplexity());
-        mv.addObject("ListOfVariation", VariationDAO.getInstance().showAllVariation());
-        mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
+        mv.addObject("ListOfOrders", orderDAO.showAllOrder());
+        mv.addObject("ListOfCustomers", customerDAO.showAllCustomers());
+        mv.addObject("ListOfTour", tourDAO.showAllTour());
+        mv.addObject("ListOfComplexity", complexityDAO.showAllComplexity());
+        mv.addObject("ListOfVariation", variationDAO.showAllVariation());
+        mv.addObject("ListOfTypeOfTour", typeOfTourDAO.showAllTypeOfTour());
         return mv;
     }
 
@@ -56,7 +68,7 @@ public class OrderController {
     @GetMapping(value = "/removeOrder/{id}")
     public ModelAndView removeOrder(@PathVariable int id) {
 
-        ORDER_DAO.removeOrder(id);
+        orderDAO.removeOrder(id);
         return new ModelAndView("redirect:/viewAllCustomersAndOrders");
     }
 }

@@ -1,29 +1,28 @@
 package com.example.dao;
 
 import com.example.entities.Variation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class VariationDAO {
-    private final static Connection connection = OracleDAOFactoryImpl.getInstance().getConnection();
-    private static VariationDAO instance;
-    private VariationDAO() {
-    }
-    public static VariationDAO getInstance() {
-        if (instance == null) {
-            instance = new VariationDAO();
-        }
-        return instance;
+    @Autowired
+    private OracleDAOFactoryImpl oracleDAOFactory;
+
+    @Autowired
+    public VariationDAO() {
     }
 
     public List<Variation> showAllVariation() {
         List<Variation> variations = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VARIATION");
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM VARIATION");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 variations.add(parseVariation(resultSet));
@@ -37,8 +36,8 @@ public class VariationDAO {
     public List<Variation> getVariation(int id) {
         ResultSet resultSet = null;
         List<Variation> variation = new ArrayList<>();
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM VARIATION WHERE TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("SELECT * FROM VARIATION WHERE TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -59,8 +58,8 @@ public class VariationDAO {
     }
 
     public boolean addVariation(Variation variation) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO VARIATION VALUES (?, ?) ")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("INSERT INTO VARIATION VALUES (?, ?) ")) {
             preparedStatement.setInt(1, variation.getTourId());
             preparedStatement.setInt(2, variation.getTypeOfTourId());
             preparedStatement.execute();
@@ -72,8 +71,8 @@ public class VariationDAO {
     }
 
     public boolean removeVariation(int id) {
-        try (PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE VARIATION WHERE TOUR_ID = ?")) {
+        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
+                .prepareStatement("DELETE VARIATION WHERE TOUR_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

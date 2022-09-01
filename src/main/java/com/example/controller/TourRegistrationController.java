@@ -4,6 +4,7 @@ import com.example.dao.*;
 import com.example.entities.Customer;
 import com.example.entities.Order;
 import com.example.entities.Tour;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,20 +15,30 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping
 public class TourRegistrationController {
-    private final OrderDAO orderDAO = OrderDAO.getInstance();
-    private final CustomerDAO customerDAO = CustomerDAO.getInstance();
-    private final DiscountDAO discountDAO = DiscountDAO.getInstance();
-
+    @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
+    private CustomerDAO customerDAO;
+    @Autowired
+    private DiscountDAO discountDAO;
+    @Autowired
+    private TourDAO tourDAO;
+    @Autowired
+    private ComplexityDAO complexityDAO;
+    @Autowired
+    private VariationDAO variationDAO;
+    @Autowired
+    private TypeOfTourDAO typeOfTourDAO;
     private Tour tour;
 
 
     @RequestMapping(value = "/tourRegistration/{tourId}", method = RequestMethod.GET)
     public ModelAndView tourRegistration(@PathVariable int tourId) {
-        this.tour = TourDAO.getInstance().getTour(tourId);
+        this.tour = tourDAO.getTour(tourId);
         ModelAndView mv = new ModelAndView("tourRegistration", "tour", tour);
-        mv.addObject("complexity", ComplexityDAO.getInstance().getComplexity(tour.getComplexityId()));
-        mv.addObject("ListVariation", VariationDAO.getInstance().getVariation(tour.getId()));
-        mv.addObject("ListOfTypeOfTour", TypeOfTourDAO.getInstance().showAllTypeOfTour());
+        mv.addObject("complexity", complexityDAO.getComplexity(tour.getComplexityId()));
+        mv.addObject("ListVariation", variationDAO.getVariation(tour.getId()));
+        mv.addObject("ListOfTypeOfTour", typeOfTourDAO.showAllTypeOfTour());
         mv.addObject("customer", new Customer());
         return mv;
     }

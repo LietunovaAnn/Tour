@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
@@ -45,8 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-
-
     }
 
     @Autowired
@@ -58,17 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("{noop}admin") //bcrypt
                 .roles(Role.ADMIN.name());
     }
-//    @Bean
-//    @Override
-//    protected UserDetailsService userDetailsService() {
-//        return new InMemoryUserDetailsManager(
-//                User.builder()
-//                        .username("admin")
-//                        .password(passwordEncoder().encode("12345"))
-//                        .roles(Role.ADMIN.name())
-//                        .build()
-//        );
-//    }
 
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
