@@ -12,11 +12,11 @@ import java.util.List;
 
 @Repository
 public class CustomerDAO {
-    @Autowired
-    private OracleDAOFactoryImpl oracleDAOFactory;
+    private final OracleDAOFactoryImpl oracleDAOFactory;
 
     @Autowired
-    public CustomerDAO() {
+    public CustomerDAO(OracleDAOFactoryImpl oracleDAOFactory) {
+        this.oracleDAOFactory = oracleDAOFactory;
     }
 
 

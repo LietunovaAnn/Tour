@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.dao.CustomerDAO;
 import com.example.dao.OrderDAO;
 import com.example.entities.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +16,13 @@ import javax.validation.Valid;
 @RequestMapping(value = "/customer")
 public class CustomerController {
 
-    @Autowired
-    private CustomerDAO customerDAO;
-    @Autowired
-    private OrderDAO orderDAO;
+    private final CustomerDAO customerDAO;
+    private final OrderDAO orderDAO;
+
+    public CustomerController(CustomerDAO customerDAO, OrderDAO orderDAO) {
+        this.customerDAO = customerDAO;
+        this.orderDAO = orderDAO;
+    }
 
 
     @RequestMapping(value = "/viewAllCustomers", method = RequestMethod.GET)

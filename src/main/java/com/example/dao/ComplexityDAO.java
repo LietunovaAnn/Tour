@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import com.example.entities.Complexity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -14,9 +13,9 @@ import java.util.List;
 public class ComplexityDAO {
     private final OracleDAOFactoryImpl oracleDAOFactory;
 
-    @Autowired
-    public ComplexityDAO(OracleDAOFactoryImpl oracleDAOFactory) {
-        this.oracleDAOFactory = oracleDAOFactory;
+
+    public ComplexityDAO() {
+        this.oracleDAOFactory = new OracleDAOFactoryImpl();
     }
 
     public List<Complexity> showAllComplexity() {

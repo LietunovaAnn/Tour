@@ -3,7 +3,6 @@ package com.example.controller;
 
 import com.example.dao.DiscountDAO;
 import com.example.entities.Discount;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping
 public class DiscountController {
-    @Autowired
-    private DiscountDAO discountDAO;
+    private final DiscountDAO discountDAO;
+
+    public DiscountController(DiscountDAO discountDAO) {
+        this.discountDAO = discountDAO;
+    }
 
     @GetMapping(value = "/viewAllDiscounts")
     public ModelAndView viewAllTours() {

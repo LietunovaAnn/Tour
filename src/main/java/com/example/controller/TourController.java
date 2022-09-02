@@ -5,7 +5,6 @@ import com.example.dao.TourDAO;
 import com.example.dao.TypeOfTourDAO;
 import com.example.dao.VariationDAO;
 import com.example.entities.Tour;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +14,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/tour")
 public class TourController {
-    @Autowired
-    private TourDAO tourDAO;
-    @Autowired
-    private ComplexityDAO complexityDAO;
-    @Autowired
-    private VariationDAO variationDAO;
-    @Autowired
-    private TypeOfTourDAO typeOfTourDAO;
+    private final TourDAO tourDAO;
+    private final ComplexityDAO complexityDAO;
+    private final VariationDAO variationDAO;
+    private final TypeOfTourDAO typeOfTourDAO;
+
+    public TourController(TourDAO tourDAO, ComplexityDAO complexityDAO, VariationDAO variationDAO, TypeOfTourDAO typeOfTourDAO) {
+        this.tourDAO = tourDAO;
+        this.complexityDAO = complexityDAO;
+        this.variationDAO = variationDAO;
+        this.typeOfTourDAO = typeOfTourDAO;
+    }
 
     @GetMapping(value = "/viewAllTours")
     public ModelAndView viewAllTours() {

@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.dao.ComplexityDAO;
 import com.example.entities.Complexity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,10 +10,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping
 public class ComplexityController {
+    private final ComplexityDAO complexityDAO;
 
-    // private static final ComplexityDAO COMPLEXITY_DAO = ComplexityDAO.getInstance();
-    @Autowired
-    private ComplexityDAO complexityDAO;
+    public ComplexityController(ComplexityDAO complexityDAO) {
+        this.complexityDAO = complexityDAO;
+    }
 
     @GetMapping(value = "/viewAllComplexity")
     public ModelAndView viewAllComplexity() {

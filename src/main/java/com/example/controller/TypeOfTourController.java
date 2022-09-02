@@ -3,7 +3,6 @@ package com.example.controller;
 
 import com.example.dao.TypeOfTourDAO;
 import com.example.entities.TypeOfTour;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,8 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class TypeOfTourController {
 
-    @Autowired
-    private TypeOfTourDAO typeOfTourDAO;
+    private final TypeOfTourDAO typeOfTourDAO;
+
+    public TypeOfTourController(TypeOfTourDAO typeOfTourDAO) {
+        this.typeOfTourDAO = typeOfTourDAO;
+    }
 
     @GetMapping(value = "/viewAllTypeOfTour")
     public ModelAndView viewAllTypeOfTour() {

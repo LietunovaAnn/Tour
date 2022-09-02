@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.dao.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,18 +13,21 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class OrderController {
 
-    @Autowired
-    private OrderDAO orderDAO;
-    @Autowired
-    private CustomerDAO customerDAO;
-    @Autowired
-    private TourDAO tourDAO;
-    @Autowired
-    private ComplexityDAO complexityDAO;
-    @Autowired
-    private VariationDAO variationDAO;
-    @Autowired
-    private TypeOfTourDAO typeOfTourDAO;
+    private final OrderDAO orderDAO;
+    private final CustomerDAO customerDAO;
+    private final TourDAO tourDAO;
+    private final ComplexityDAO complexityDAO;
+    private final VariationDAO variationDAO;
+    private final TypeOfTourDAO typeOfTourDAO;
+
+    public OrderController(OrderDAO orderDAO, CustomerDAO customerDAO, TourDAO tourDAO, ComplexityDAO complexityDAO, VariationDAO variationDAO, TypeOfTourDAO typeOfTourDAO) {
+        this.orderDAO = orderDAO;
+        this.customerDAO = customerDAO;
+        this.tourDAO = tourDAO;
+        this.complexityDAO = complexityDAO;
+        this.variationDAO = variationDAO;
+        this.typeOfTourDAO = typeOfTourDAO;
+    }
 
     @RequestMapping(value = "/viewAllCustomersAndOrders", method = RequestMethod.GET)
     public ModelAndView viewAllCustomersAndOrders() {
