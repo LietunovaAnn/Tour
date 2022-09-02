@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -10,45 +11,16 @@ import java.sql.SQLException;
 @Component
 public class OracleDAOFactoryImpl {
 
-    private static final String DB_URL = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
-    private static final String DB_USERNAME = "ann";
-    private static final String DB_PASSWORD = "12345";
-    private static final String DRIVER = "oracle.jdbc.OracleDriver";
-
-    //    @Value("${spring.datasource.url}")
-//    private String DB_URL;
-//    @Value("${spring.datasource.username}")
-//    private String DB_USERNAME;
-//    @Value("${spring.datasource.password}")
-//    private String DB_PASSWORD;
-//    @Value("${spring.datasource.driver-class-name}")
-//    private String DRIVER;
+    @Value("${spring.datasource.url}")
+    private String DB_URL;
+    @Value("${spring.datasource.username}")
+    private String DB_USERNAME;
+    @Value("${spring.datasource.password}")
+    private String DB_PASSWORD;
+    @Value("${spring.datasource.driver-class-name}")
+    private String DRIVER;
     private static Connection connection;
 
-
-//    public OracleDAOFactoryImpl(@Value("${spring.datasource.driver-class-name}") String driver,
-//                                @Value("${spring.datasource.url}") String url,
-//                                @Value("${spring.datasource.username}") String username,
-//                                @Value("${spring.datasource.password}") String password) {
-//        this.setMaximumPoolSize(20);
-//        this.setDriverClassName(driver);
-//        this.setJdbcUrl(url);
-//        this.setUsername(username);
-//        this.setPassword(password);
-//    }
-//
-//    public OracleDAOFactoryImpl() {
-//        this.setMaximumPoolSize(20);
-//        this.setDriverClassName(DRIVER);
-//        this.setJdbcUrl(DB_URL);
-//        this.setUsername(DB_USERNAME);
-//        this.setPassword(DB_PASSWORD);
-//    }
-
-//    @Autowired
-//    public OracleDAOFactoryImpl(DataSource dataSource) {
-//        this.setDataSource(dataSource);
-//    }
 
     public Connection getConnection() {
         System.out.println("connection");
@@ -70,12 +42,12 @@ public class OracleDAOFactoryImpl {
         return connection;
     }
 
-//    public void disconnect() {
-//        try {
-//            connection.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void disconnect() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
