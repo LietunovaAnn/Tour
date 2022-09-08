@@ -30,7 +30,6 @@ public class CustomerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return customerList;
     }
 
@@ -118,21 +117,6 @@ public class CustomerDAO {
             preparedStatement.setString(2, customer.getEmail());
             preparedStatement.setInt(3, customer.getParticipationNumber());
             preparedStatement.setInt(4, customer.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    public boolean editCustomerParticipationNumber(Customer customer) {
-        try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection().prepareStatement
-                ("UPDATE CUSTOMERS set PARTICIPATION_NUMBER = ?" +
-                        " WHERE CUSTOMERS_ID = ?")) {
-            customer.setParticipationNumber(customer.getParticipationNumber() - 1);
-            preparedStatement.setInt(1, customer.getParticipationNumber());
-            preparedStatement.setInt(2, customer.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

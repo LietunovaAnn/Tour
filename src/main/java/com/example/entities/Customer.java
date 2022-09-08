@@ -1,5 +1,6 @@
 package com.example.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Positive;
 
 @Data
+@AllArgsConstructor
 public class Customer {
     @Id
     @SequenceGenerator(name = "seq", sequenceName = "CUSTOMERS_SEQ")
@@ -20,4 +22,7 @@ public class Customer {
     private String email;
     @Positive
     private int participationNumber;
+
+    public Customer() {
+    }
 }
