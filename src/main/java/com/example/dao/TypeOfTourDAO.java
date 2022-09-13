@@ -59,14 +59,28 @@ public class TypeOfTourDAO {
 
     public boolean addTypeOfTour(TypeOfTour typeOfTour) {
         try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
-                .prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (TYPE_OF_TOUR_SEQ.nextval, ?) ")) {
-            preparedStatement.setString(1, typeOfTour.getName());
+                .prepareStatement("INSERT INTO TYPE_OF_TOUR VALUES (?, ?) ")) {
+            typeOfTour.setId(getNextVal());
+            preparedStatement.setInt(1, typeOfTour.getId());
+            preparedStatement.setString(2, typeOfTour.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = oracleDAOFactory.getConnection()
+                    .createStatement().executeQuery("SELECT TYPE_OF_TOUR_SEQ.nextval from TYPE_OF_TOUR");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean editTypeOfTour(TypeOfTour typeOfTour) {

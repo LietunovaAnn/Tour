@@ -5,18 +5,7 @@ CREATE TABLE "DISCOUNT"
     "PERCENT"              NUMBER NOT NULL,
     constraint "DISCOUNT_PK" PRIMARY KEY ("DISCOUNT_ID")
 );
-CREATE SEQUENCE "DISCOUNT_SEQ";
 
-CREATE OR REPLACE TRIGGER "BI_DISCOUNT"
-    before insert
-    on "DISCOUNT"
-    for each row
-begin
-    if :NEW."DISCOUNT_ID" is null then
-        select "DISCOUNT_SEQ".nextval into :NEW."DISCOUNT_ID" from dual;
-    end if;
-end;
-commit;
 
 CREATE TABLE "CUSTOMERS"
 (
@@ -26,18 +15,7 @@ CREATE TABLE "CUSTOMERS"
     "PARTICIPATION_NUMBER" NUMBER,
     constraint "CUSTOMERS_PK" PRIMARY KEY ("CUSTOMERS_ID")
 );
-CREATE SEQUENCE "CUSTOMERS_SEQ";
 
-CREATE TRIGGER "BI_CUSTOMERS"
-    before insert
-    on "CUSTOMERS"
-    for each row
-begin
-    if :NEW."CUSTOMERS_ID" is null then
-        select "CUSTOMERS_SEQ".nextval into :NEW."CUSTOMERS_ID" from dual;
-    end if;
-end;
-commit;
 
 CREATE TABLE "COMPLEXITY"
 (
@@ -45,18 +23,7 @@ CREATE TABLE "COMPLEXITY"
     "COMPLEXITY_NAME" VARCHAR(100) NOT NULL,
     constraint "COMPLEXITY_PK" PRIMARY KEY ("COMPLEXITY_ID")
 );
-CREATE SEQUENCE "COMPLEXITY_SEQ";
 
-CREATE TRIGGER "BI_COMPLEXITY"
-    before insert
-    on "COMPLEXITY"
-    for each row
-begin
-    if :NEW."COMPLEXITY_ID" is null then
-        select "COMPLEXITY_SEQ".nextval into :NEW."COMPLEXITY_ID" from dual;
-    end if;
-end;
-commit;
 
 CREATE TABLE "TYPE_OF_TOUR"
 (
@@ -64,18 +31,7 @@ CREATE TABLE "TYPE_OF_TOUR"
     "TYPE_OF_TOUR_NAME" VARCHAR(100) NOT NULL,
     constraint "TYPE_OF_TOUR_PK" PRIMARY KEY ("TYPE_OF_TOUR_ID")
 );
-CREATE SEQUENCE "TYPE_OF_TOUR_SEQ";
 
-CREATE TRIGGER "BI_TYPE_OF_TOUR"
-    before insert
-    on "TYPE_OF_TOUR"
-    for each row
-begin
-    if :NEW."TYPE_OF_TOUR_ID" is null then
-        select "TYPE_OF_TOUR_SEQ".nextval into :NEW."TYPE_OF_TOUR_ID" from dual;
-    end if;
-end;
-commit;
 
 CREATE TABLE "TOUR"
 (
@@ -88,18 +44,7 @@ CREATE TABLE "TOUR"
         FOREIGN KEY ("COMPLEXITY_ID")
             REFERENCES "COMPLEXITY" ("COMPLEXITY_ID")
 );
-CREATE SEQUENCE "TOUR_SEQ";
 
-CREATE TRIGGER "BI_TOUR"
-    before insert
-    on "TOUR"
-    for each row
-begin
-    if :NEW."TOUR_ID" is null then
-        select "TOUR_SEQ".nextval into :NEW."TOUR_ID" from dual;
-    end if;
-end;
-commit;
 
 CREATE TABLE "VARIATION"
 (
@@ -128,18 +73,18 @@ CREATE TABLE "ORDERS"
         FOREIGN KEY ("CUSTOMERS_ID")
             REFERENCES "CUSTOMERS" ("CUSTOMERS_ID")
 );
+
 CREATE SEQUENCE "ORDERS_SEQ";
 
-CREATE TRIGGER "BI_ORDERS"
-    before insert
-    on "ORDERS"
-    for each row
-begin
-    if :NEW."ORDERS_ID" is null then
-        select "ORDERS_SEQ".nextval into :NEW."ORDERS_ID" from dual;
-    end if;
-end;
-commit;
+CREATE SEQUENCE "TOUR_SEQ";
+
+CREATE SEQUENCE "TYPE_OF_TOUR_SEQ";
+
+CREATE SEQUENCE "DISCOUNT_SEQ";
+
+CREATE SEQUENCE "CUSTOMERS_SEQ";
+
+CREATE SEQUENCE "COMPLEXITY_SEQ";
 
 INSERT INTO COMPLEXITY
 VALUES (1, 'WITHOUT BACKPACKS');
@@ -224,3 +169,6 @@ INSERT INTO ORDERS
 VALUES (6, 3, 3, 1500);
 INSERT INTO ORDERS
 VALUES (7, 4, 4, 3500);
+
+
+

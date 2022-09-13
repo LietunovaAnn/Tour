@@ -97,16 +97,30 @@ public class CustomerDAO {
 
     public boolean addCustomer(Customer customer) {
         try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection().prepareStatement(
-                "INSERT INTO CUSTOMERS VALUES (CUSTOMERS_SEQ.nextval, ?, ?, ?) ")) {
-            preparedStatement.setString(1, customer.getName());
-            preparedStatement.setString(2, customer.getEmail());
-            preparedStatement.setInt(3, customer.getParticipationNumber());
+                "INSERT INTO CUSTOMERS VALUES (?, ?, ?, ?) ")) {
+            customer.setId(getNextVal());
+            preparedStatement.setInt(1, customer.getId());
+            preparedStatement.setString(2, customer.getName());
+            preparedStatement.setString(3, customer.getEmail());
+            preparedStatement.setInt(4, customer.getParticipationNumber());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = oracleDAOFactory.getConnection()
+                    .createStatement().executeQuery("SELECT CUSTOMERS_SEQ.nextval from CUSTOMERS");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean editCustomer(Customer customer) {

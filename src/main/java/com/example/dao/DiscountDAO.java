@@ -83,15 +83,29 @@ public class DiscountDAO {
 
     public boolean addDiscount(Discount discount) {
         try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
-                .prepareStatement("INSERT INTO DISCOUNT  VALUES (DISCOUNT_SEQ.nextval, ?, ?) ")) {
-            preparedStatement.setInt(1, discount.getParticipationNumber());
-            preparedStatement.setInt(2, discount.getPercent());
+                .prepareStatement("INSERT INTO DISCOUNT  VALUES (?, ?, ?) ")) {
+            discount.setId(getNextVal());
+            preparedStatement.setInt(1, discount.getId());
+            preparedStatement.setInt(2, discount.getParticipationNumber());
+            preparedStatement.setInt(3, discount.getPercent());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = oracleDAOFactory.getConnection()
+                    .createStatement().executeQuery("SELECT DISCOUNT_SEQ.nextval from DISCOUNT");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean editDiscount(Discount discount) {

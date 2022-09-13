@@ -72,16 +72,30 @@ public class TourDAO {
 
     public boolean addTour(Tour tour) {
         try (PreparedStatement preparedStatement = oracleDAOFactory.getConnection()
-                .prepareStatement("INSERT INTO TOUR VALUES (TOUR_SEQ.nextval, ?, ?, ?) ")) {
-            preparedStatement.setString(1, tour.getName());
-            preparedStatement.setInt(2, tour.getPrice());
-            preparedStatement.setInt(3, tour.getComplexityId());
+                .prepareStatement("INSERT INTO TOUR VALUES (?, ?, ?, ?) ")) {
+            tour.setId(getNextVal());
+            preparedStatement.setInt(1, tour.getId());
+            preparedStatement.setString(2, tour.getName());
+            preparedStatement.setInt(3, tour.getPrice());
+            preparedStatement.setInt(4, tour.getComplexityId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = oracleDAOFactory.getConnection()
+                    .createStatement().executeQuery("SELECT TOUR_SEQ.nextval from TOUR");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean editTour(Tour tour) {

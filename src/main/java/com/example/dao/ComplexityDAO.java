@@ -57,14 +57,28 @@ public class ComplexityDAO {
 
     public boolean addComplexity(Complexity complexity) {
         try (PreparedStatement preparedStatement =
-                     oracleDAOFactory.getConnection().prepareStatement("INSERT INTO COMPLEXITY  VALUES (COMPLEXITY_SEQ.nextval, ?) ")) {
-            preparedStatement.setString(1, complexity.getName());
+                     oracleDAOFactory.getConnection().prepareStatement("INSERT INTO COMPLEXITY  VALUES (?, ?) ")) {
+            complexity.setId(getNextVal());
+            preparedStatement.setInt(1, complexity.getId());
+            preparedStatement.setString(2, complexity.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    private int getNextVal() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = oracleDAOFactory.getConnection()
+                    .createStatement().executeQuery("SELECT COMPLEXITY_SEQ.nextval from COMPLEXITY");
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean editComplexity(Complexity complexity) {
