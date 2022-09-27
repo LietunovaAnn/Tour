@@ -39,10 +39,6 @@ public class OracleDAOFactoryImpl {
         if (connection == null) {
             try {
                 DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-                System.out.println(DRIVER);
-                System.out.println(DB_URL);
-                System.out.println(DB_PASSWORD);
-                System.out.println(DB_USERNAME);
                 Class.forName(DRIVER);
                 connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             } catch (SQLException | ClassNotFoundException e) {

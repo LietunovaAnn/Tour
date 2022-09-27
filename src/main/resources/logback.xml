@@ -14,7 +14,7 @@
         </encoder>
     </appender>
 
-    <logger name="ua.edu.sumdu.j2se.lietunova.tasks" level="debug"/>
+    <logger name="com.example" level="debug"/>
 
     <root level="TRACE">
         <appender-ref ref="ROLLING"/>
